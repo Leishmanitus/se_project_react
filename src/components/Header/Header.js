@@ -1,33 +1,31 @@
 import "./Header.css";
 
-function Header() {
-  const currentDate = new Date().toLocaleString("default", {
-    month: "long",
-    day: "numeric",
-  });
-
+function Header({ currentDate }) {
   return (
-    <div>
-      <div>
-        <img
-          className="header__logo"
-          src="../../../public/images/wtwr-logo.svg"
-          alt="WTWR"
-        />
-        <p>
-          {currentDate}
-          {}
+    <header className="header">
+      <div className="header__group">
+        <img className="header__logo" src="/images/wtwr-logo.svg" alt="WTWR" />
+        <p className="header__text">
+          {currentDate},{}
         </p>
       </div>
-      <div>
-        <button type="text">+ Add Clothes</button>
-        <p>Tyler Leishman</p>
-        <img
-          className="header__avatar"
-          src="../../../public/images/avatar.svg"
-          alt="avatar"
-        />
+      <div className="header__group">
+        <button className="header__text header__text_button" type="text">
+          + Add Clothes
+        </button>
+        <div className="header__profile-group">
+          <p className="header__text">Tyler Leishman</p>
+          <div className="header__avatar-container">
+            <img
+              className="header__avatar"
+              src="/images/avatar.svg"
+              alt="Avatar"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </header>
   );
 }
+
+export default Header;

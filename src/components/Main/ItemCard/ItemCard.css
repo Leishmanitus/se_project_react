@@ -1,0 +1,23 @@
+.items {
+  width: 1360px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
+.items__message {
+  /* font-family: Cabinet Grotesk; */
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 34px;
+}
+
+.items__cards {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 328px);
+  grid-template-rows: repeat(auto, 328px);
+}
+
+.items__card {
+}

@@ -1,0 +1,56 @@
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 32px 40px 28px;
+}
+
+.header__group {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.header__profile-group {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin: 0 0 0 auto;
+}
+
+.header__logo {
+  width: 89px;
+  height: 32px;
+  margin: 0 24px 0 0;
+}
+
+.header__text {
+  /* font-family: Cabinet Grotesk; */
+  font-size: 20px;
+  line-height: 120%;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header__text_button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 20px 0 0;
+}
+
+.header__avatar-container {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 40px;
+  margin: 0 0 0 12px;
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
