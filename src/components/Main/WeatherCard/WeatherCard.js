@@ -1,11 +1,17 @@
 import "./WeatherCard.css";
 import { createWeatherCard } from "../../../utils/factories";
 
-function WeatherCard({ temperature, isNight, weatherElement }) {
+function WeatherCard({ weatherData }) {
   return (
     <section className="weather">
-      <p className="weather__temperature">{temperature}°F</p>
-      {createWeatherCard(isNight, weatherElement)}
+      <p className="weather__temperature">{weatherData.temperature}°F</p>
+      <img
+        className="weather__card"
+        src={require(`../../../images/weather/${
+          weatherData.isNight ? "night" : "day"
+        }/${weatherData.weather}.svg`)}
+        alt="The current weather."
+      />
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import "./ItemCard.css";
-import { createItemCard } from "../../../utils/factories";
+import { createItemCards } from "../../../utils/factories";
+import { defaultClothingItems } from "../../../utils/constants";
 
 function ItemCard({ temperature }) {
   return (
@@ -7,8 +8,9 @@ function ItemCard({ temperature }) {
       <p className="items__message">
         Today is {temperature}° F / You may want to wear:
       </p>
-      {createItemCard()}
-      <div className="items__cards"></div>
+      <div className="items__cards">
+        {createItemCards(defaultClothingItems, temperature)}
+      </div>
     </section>
   );
 }

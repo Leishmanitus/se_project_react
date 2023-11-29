@@ -2,17 +2,11 @@ import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
 
-function Main({ isNight }) {
-  const temp = 75;
-  const weather = "cloudy";
+function Main({ weatherData }) {
   return (
     <main className="main">
-      <WeatherCard
-        isNight={isNight}
-        temperature={temp}
-        weatherElement={weather}
-      ></WeatherCard>
-      <ItemCard temperature={temp}></ItemCard>
+      <WeatherCard weatherData={weatherData}></WeatherCard>
+      <ItemCard temperature={weatherData.temperature}></ItemCard>
     </main>
   );
 }

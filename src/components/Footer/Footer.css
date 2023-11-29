@@ -1,8 +1,9 @@
 .footer {
+  width: 1360px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin: 171px 40px 24px;
+  margin: 171px 40px 0;
 }
 
 .footer__text {

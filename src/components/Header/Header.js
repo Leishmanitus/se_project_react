@@ -1,12 +1,16 @@
 import "./Header.css";
 
-function Header({ currentDate }) {
+function Header({ date, location }) {
   return (
     <header className="header">
       <div className="header__group">
-        <img className="header__logo" src="/images/wtwr-logo.svg" alt="WTWR" />
+        <img
+          className="header__logo"
+          src={require("../../images/wtwr-logo.svg").default}
+          alt="WTWR"
+        />
         <p className="header__text">
-          {currentDate},{}
+          {date}, {location}
         </p>
       </div>
       <div className="header__group">
@@ -18,7 +22,7 @@ function Header({ currentDate }) {
           <div className="header__avatar-container">
             <img
               className="header__avatar"
-              src="/images/avatar.svg"
+              src={require("../../images/avatar.svg").default}
               alt="Avatar"
             />
           </div>
