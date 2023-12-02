@@ -1,6 +1,6 @@
 import "./Header.css";
 
-function Header({ date, location }) {
+function Header({ date, location, handleOpen, container }) {
   return (
     <header className="header">
       <div className="header__group">
@@ -14,7 +14,13 @@ function Header({ date, location }) {
         </p>
       </div>
       <div className="header__group">
-        <button className="header__text header__text_button" type="text">
+        <button
+          className="header__text header__text_button"
+          type="text"
+          onClick={() => {
+            handleOpen(container);
+          }}
+        >
           + Add Clothes
         </button>
         <div className="header__profile-group">

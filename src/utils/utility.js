@@ -1,4 +1,4 @@
-export function getDate() {
+export const getDate = () => {
   const date = new Date();
 
   const currentDate = date.toLocaleString("default", {
@@ -9,4 +9,4 @@ export function getDate() {
   const isNight = hours > 19 || hours < 6;
 
   return { currentDate, isNight };
-}
+};

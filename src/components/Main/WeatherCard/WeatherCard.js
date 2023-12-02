@@ -1,5 +1,4 @@
 import "./WeatherCard.css";
-import { createWeatherCard } from "../../../utils/factories";
 
 function WeatherCard({ weatherData }) {
   return (
