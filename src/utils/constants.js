@@ -41,5 +41,4 @@ export const prefferedLocation = {
   name: "Lake Charles",
   latitude: 30.212942,
   longitude: -93.21891,
-  apiKey: "65936a1760b0f342114ed3cab9c87560",
 };

@@ -5,8 +5,6 @@ export const getDate = () => {
     month: "long",
     day: "numeric",
   });
-  const hours = date.getHours();
-  const isNight = hours > 19 || hours < 6;
 
-  return { currentDate, isNight };
+  return currentDate;
 };

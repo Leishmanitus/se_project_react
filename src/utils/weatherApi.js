@@ -1,17 +1,20 @@
-export const getWeather = (latitude, longitude, APIkey) => {
+export const getWeatherForecast = (latitude, longitude, APIkey) => {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`;
-  const headers = {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  };
-  const response = (res) => {
+
+  return fetch(url).then((res) => {
     if (res.ok) {
       return res.json();
     }
     return Promise.reject(`Error: ${res.status}`);
-  };
-  return fetch(url, headers).then(response());
+  });
+};
+
+export const filterWeatherData = (data) => {
+  if (!data) {
+    return null;
+  }
+
+  const weather = {};
+  weather.temperature = data.current.temperature;
+  return weather;
 };

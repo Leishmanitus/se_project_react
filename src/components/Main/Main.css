@@ -6,3 +6,25 @@
   align-content: flex-start;
   margin: 0 40px 0;
 }
+
+.main__content {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+}
+
+.main__message {
+  /* font-family: Cabinet Grotesk; */
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 34px;
+}
+
+.main__cards {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 328px);
+  grid-auto-rows: 328px;
+  gap: 20px 17px;
+}

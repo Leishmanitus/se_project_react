@@ -31,7 +31,7 @@ export function createItemCards(clothes, temperature) {
 
   const createElement = (item) => {
     return (
-      <div className="items__card card">
+      <div className="card">
         <img className="card__image" src={item.link} alt={item.name} />
         <div className="card__title-frame">
           <p className="card__title">{item.name}</p>

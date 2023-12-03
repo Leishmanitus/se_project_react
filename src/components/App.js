@@ -1,52 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 import ModalWithForm from "./ModalWithForm/ModalWithForm";
-import { getDate } from "../utils/utility";
-import { getWeather } from "../utils/weatherApi";
+import ItemModal from "./ItemModal/ItemModal";
+import { filterWeatherData, getWeatherForecast } from "../utils/weatherApi";
 import { defaultClothingItems, prefferedLocation } from "../utils/constants";
 
 function App() {
-  const container = document.querySelector(".modal");
-  // const weatherData = getWeather(
-  //   prefferedLocation.latitude,
-  //   prefferedLocation.longitude,
-  //   prefferedLocation.apiKey
-  // );
+  const [modalState, setModalState] = useState("none");
+  const [weatherData, setWeatherData] = useState({});
+  const [clothingItems, setClothingItems] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
 
-  // const [clothes, setClothes] = useState();
-  // const [date, setDate] = useState("");
-  // const [location, setLocation] = useState("");
-  const [modalState, setModalState] = useState("");
-  const { currentDate, isNight } = getDate();
-  const weatherData = {
-    temperature: 90,
-    weather: "clear",
-    isNight: isNight,
-  };
-
-  const handleOpen = () => {
-    setModalState("active");
+  const handlePreview = () => {
+    setModalState("preview");
   };
 
   const handleClose = () => {
-    setModalState("inactive");
+    setModalState("none");
   };
+
+  useEffect(() => {
+    if (prefferedLocation.latitude && prefferedLocation.longitude) {
+      getWeatherForecast(prefferedLocation, secretKey).then((data) => {
+        setWeatherData(filterWeatherData(data)).catch((err) =>
+          console.log(err)
+        );
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    setClothingItems(defaultClothingItems);
+  }, []);
 
   return (
     <div className="app">
       <Header
-        date={currentDate}
         location={"Lake Charles"}
-        handleOpen={handleOpen}
-        container={container}
+        onAddItem={() => setModalState("garment")}
       ></Header>
-      <Main weatherData={weatherData}></Main>
+      <Main
+        weatherData={weatherData}
+        items={clothingItems}
+        onCardClick={() => setModalState("preview")}
+      ></Main>
       <Footer></Footer>
       {modalState === "active" && (
         <ModalWithForm handleClose={handleClose}></ModalWithForm>
+      )}
+      {modalState === "preview" && (
+        <ItemModal
+          selectedCard={selectedCard}
+          handleClose={handleClose}
+        ></ItemModal>
       )}
     </div>
   );

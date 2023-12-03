@@ -1,6 +1,9 @@
 import "./Header.css";
+import { getDate } from "../../../utils/utility";
 
-function Header({ date, location, handleOpen, container }) {
+function Header({ weatherData, onAddItem }) {
+  const { currentDate } = getDate();
+
   return (
     <header className="header">
       <div className="header__group">
@@ -10,16 +13,14 @@ function Header({ date, location, handleOpen, container }) {
           alt="WTWR"
         />
         <p className="header__text">
-          {date}, {location}
+          {currentDate}, {weatherData.location}
         </p>
       </div>
       <div className="header__group">
         <button
           className="header__text header__text_button"
           type="text"
-          onClick={() => {
-            handleOpen(container);
-          }}
+          onClick={onAddItem}
         >
           + Add Clothes
         </button>
