@@ -3,37 +3,103 @@ export const defaultClothingItems = [
     _id: 0,
     name: "Cap",
     weather: "hot",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Cap.png?etag=f3dad389b22909cafa73cff9f9a3d591",
+    link: require("../images/clothing/cap.jpg"),
   },
   {
     _id: 1,
     name: "Hoodie",
     weather: "warm",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Hoodie.png?etag=5f52451d0958ccb1016c78a45603a4e8",
+    link: require("../images/clothing/hoodie.jpg"),
   },
   {
     _id: 2,
     name: "Jacket",
     weather: "cold",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Jacket.png?etag=f4bb188deaa25ac84ce2338be2d404ad",
+    link: require("../images/clothing/jacket.jpg"),
   },
   {
     _id: 3,
     name: "Sneakers",
     weather: "cold",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Sneakers.png?etag=3efeec41c1c78b8afe26859ca7fa7b6f",
+    link: require("../images/clothing/sneakers.jpg"),
   },
   {
     _id: 4,
     name: "T-Shirt",
     weather: "hot",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09",
+    link: require("../images/clothing/t-shirt.jpg"),
   },
   {
     _id: 5,
     name: "Winter coat",
     weather: "cold",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Coat.png?etag=298717ed89d5e40b1954a1831ae0bdd4",
+    link: require("../images/clothing/coat.jpg"),
+  },
+];
+
+const defaultDayWeatherOptions = [
+  {
+    name: "clear",
+    time: "day",
+    link: require("../images/weather/day/clear.svg"),
+  },
+  {
+    name: "cloudy",
+    time: "day",
+    link: require("../images/weather/day/cloudy.svg"),
+  },
+  {
+    name: "fog",
+    time: "day",
+    link: require("../images/weather/day/fog.svg"),
+  },
+  {
+    name: "rain",
+    time: "day",
+    link: require("../images/weather/day/rain.svg"),
+  },
+  {
+    name: "storm",
+    time: "day",
+    link: require("../images/weather/day/storm.svg"),
+  },
+  {
+    name: "snow",
+    time: "day",
+    link: require("../images/weather/day/snow.svg"),
+  },
+];
+
+const defaultNightWeatherOptions = [
+  {
+    name: "clear",
+    time: "night",
+    link: require("../images/weather/night/clear.svg"),
+  },
+  {
+    name: "cloudy",
+    time: "night",
+    link: require("../images/weather/night/cloudy.svg"),
+  },
+  {
+    name: "fog",
+    time: "night",
+    link: require("../images/weather/night/fog.svg"),
+  },
+  {
+    name: "rain",
+    time: "night",
+    link: require("../images/weather/night/rain.svg"),
+  },
+  {
+    name: "storm",
+    time: "night",
+    link: require("../images/weather/night/storm.svg"),
+  },
+  {
+    name: "snow",
+    time: "night",
+    link: require("../images/weather/night/snow.svg"),
   },
 ];
 

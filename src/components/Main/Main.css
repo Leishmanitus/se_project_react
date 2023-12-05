@@ -15,7 +15,7 @@
 }
 
 .main__message {
-  /* font-family: Cabinet Grotesk; */
+  font-family: "Cabinet Grotesk";
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 34px;

@@ -26,7 +26,7 @@
 }
 
 .modal__title {
-  /* font-family: Cabinet Grotesk; */
+  font-family: "Cabinet Grotesk";
   font-size: 16px;
   line-height: 125%;
   font-weight: 700;
@@ -34,7 +34,7 @@
 }
 
 .modal__text {
-  /* font-family: Cabinet Grotesk; */
+  font-family: "Cabinet Grotesk";
   font-size: 16px;
   line-height: 125%;
   font-weight: 700;
@@ -73,7 +73,7 @@
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: flex-start;
-  /* font-family: Cabinet Grotesk; */
+  font-family: "Cabinet Grotesk";
   font-size: 16px;
   line-height: 125%;
   font-weight: 700;
@@ -114,7 +114,7 @@
 .form__submit {
   width: 124px;
   height: 36px;
-  /* font-family: Cabinet Grotesk; */
+  font-family: "Cabinet Grotesk";
   font-size: 16px;
   line-height: 125%;
   font-weight: 700;

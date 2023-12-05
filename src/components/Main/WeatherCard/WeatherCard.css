@@ -16,7 +16,7 @@
 .weather__temperature {
   position: absolute;
   color: #fff;
-  /* font-family: Cabinet Grotesk; */
+  font-family: "Cabinet Grotesk";
   font-size: 36px;
   line-height: 111.111%;
   font-weight: 700;

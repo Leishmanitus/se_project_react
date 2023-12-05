@@ -1,6 +1,6 @@
 import "./WeatherCard.css";
 
-function WeatherCard({ temperature, weather, isNight }) {
+function WeatherCard({ temperature, isNight, weatherType }) {
   return (
     <section className="weather">
       <p className="weather__temperature">{temperature}°F</p>
@@ -8,7 +8,7 @@ function WeatherCard({ temperature, weather, isNight }) {
         className="weather__card"
         src={require(`../../../images/weather/${
           isNight ? "night" : "day"
-        }/${weather}.svg`)}
+        }/clear.svg`)}
         alt="The current weather."
       />
     </section>

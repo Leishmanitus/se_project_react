@@ -1,5 +1,5 @@
-export const getWeatherForecast = (latitude, longitude, APIkey) => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${APIkey}`;
+export function getWeatherForecast(locationData, secretKey) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&units=imperial&appid=${secretKey}`;
 
   return fetch(url).then((res) => {
     if (res.ok) {
@@ -7,14 +7,16 @@ export const getWeatherForecast = (latitude, longitude, APIkey) => {
     }
     return Promise.reject(`Error: ${res.status}`);
   });
-};
+}
 
-export const filterWeatherData = (data) => {
+export function filterWeatherData(data) {
   if (!data) {
     return null;
   }
 
   const weather = {};
-  weather.temperature = data.current.temperature;
+  weather.temperature = Math.floor(data.main.temp);
+  weather.type = data.weather["0"].main.toLowerCase();
+  weather.location = data.name;
   return weather;
-};
+}

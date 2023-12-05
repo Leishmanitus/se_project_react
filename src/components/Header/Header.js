@@ -1,17 +1,20 @@
 import "./Header.css";
-import { getDate } from "../../../utils/utility";
+import { getDate } from "../../utils/utility";
+import wtwrLogo from "../../images/wtwr-logo.svg";
+import avatarDefault from "../../images/avatar.svg";
 
 function Header({ weatherData, onAddItem }) {
-  const { currentDate } = getDate();
+  if (!weatherData) {
+    return null;
+  }
+  const currentDate = getDate();
+  const userName = "Tyler Leishman";
+  const avatar = "";
 
   return (
     <header className="header">
       <div className="header__group">
-        <img
-          className="header__logo"
-          src={require("../../images/wtwr-logo.svg").default}
-          alt="WTWR"
-        />
+        <img className="header__logo" src={wtwrLogo} alt="WTWR" />
         <p className="header__text">
           {currentDate}, {weatherData.location}
         </p>
@@ -25,13 +28,19 @@ function Header({ weatherData, onAddItem }) {
           + Add Clothes
         </button>
         <div className="header__profile-group">
-          <p className="header__text">Tyler Leishman</p>
+          <p className="header__text">{userName}</p>
           <div className="header__avatar-container">
-            <img
-              className="header__avatar"
-              src={require("../../images/avatar.svg").default}
-              alt="Avatar"
-            />
+            {avatar ? (
+              <img
+                className="header__avatar"
+                src={avatar || avatarDefault}
+                alt="Avatar"
+              />
+            ) : (
+              <span className="header__avatar-letter">
+                {userName.toUpperCase().charAt(0) || ""}
+              </span>
+            )}
           </div>
         </div>
       </div>
