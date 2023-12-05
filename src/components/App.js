@@ -43,6 +43,7 @@ function App() {
         weatherData={weatherData}
         items={clothingItems}
         onCardClick={(card) => {
+          console.log(card);
           setSelectedCard(card);
           setModalState("preview");
         }}
@@ -125,7 +126,11 @@ function App() {
         </ModalWithForm>
       )}
       {modalState === "preview" && (
-        <ItemModal selectedCard={selectedCard} handleClose={handleClose} />
+        <ItemModal
+          name="preview"
+          selectedCard={selectedCard}
+          handleClose={handleClose}
+        />
       )}
     </div>
   );

@@ -33,21 +33,13 @@
   margin: 28px auto 0 28px;
 }
 
-.modal__text {
-  font-family: "Cabinet Grotesk";
-  font-size: 16px;
-  line-height: 125%;
-  font-weight: 700;
-  margin: 0;
-}
-
 .modal__close-button {
   width: 20px;
   height: 20px;
   position: absolute;
   top: 20px;
   right: 28px;
-  background: url("../../images/close-icon.svg") center/cover no-repeat;
+  background: url("../../images/close-icon-grey.svg") center/cover no-repeat;
   border: none;
   cursor: pointer;
 }

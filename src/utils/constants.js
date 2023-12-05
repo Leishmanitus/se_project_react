@@ -20,7 +20,7 @@ export const defaultClothingItems = [
   {
     _id: 3,
     name: "Sneakers",
-    weather: "cold",
+    weather: "hot",
     link: require("../images/clothing/sneakers.jpg"),
   },
   {
@@ -34,72 +34,6 @@ export const defaultClothingItems = [
     name: "Winter coat",
     weather: "cold",
     link: require("../images/clothing/coat.jpg"),
-  },
-];
-
-const defaultDayWeatherOptions = [
-  {
-    name: "clear",
-    time: "day",
-    link: require("../images/weather/day/clear.svg"),
-  },
-  {
-    name: "cloudy",
-    time: "day",
-    link: require("../images/weather/day/cloudy.svg"),
-  },
-  {
-    name: "fog",
-    time: "day",
-    link: require("../images/weather/day/fog.svg"),
-  },
-  {
-    name: "rain",
-    time: "day",
-    link: require("../images/weather/day/rain.svg"),
-  },
-  {
-    name: "storm",
-    time: "day",
-    link: require("../images/weather/day/storm.svg"),
-  },
-  {
-    name: "snow",
-    time: "day",
-    link: require("../images/weather/day/snow.svg"),
-  },
-];
-
-const defaultNightWeatherOptions = [
-  {
-    name: "clear",
-    time: "night",
-    link: require("../images/weather/night/clear.svg"),
-  },
-  {
-    name: "cloudy",
-    time: "night",
-    link: require("../images/weather/night/cloudy.svg"),
-  },
-  {
-    name: "fog",
-    time: "night",
-    link: require("../images/weather/night/fog.svg"),
-  },
-  {
-    name: "rain",
-    time: "night",
-    link: require("../images/weather/night/rain.svg"),
-  },
-  {
-    name: "storm",
-    time: "night",
-    link: require("../images/weather/night/storm.svg"),
-  },
-  {
-    name: "snow",
-    time: "night",
-    link: require("../images/weather/night/snow.svg"),
   },
 ];
 

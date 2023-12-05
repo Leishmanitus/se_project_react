@@ -39,7 +39,7 @@ function Main({ weatherData, items, onCardClick }) {
               <ItemCard
                 key={filteredCard._id}
                 card={filteredCard}
-                onCardClick={onCardClick}
+                onCardClick={() => onCardClick(filteredCard)}
               />
             ))}
         </div>
