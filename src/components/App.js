@@ -10,13 +10,13 @@ import { defaultClothingItems, prefferedLocation } from "../utils/constants";
 import { secretKey } from "../secret";
 
 function App() {
-  const [modalState, setModalState] = React.useState("none");
+  const [activeModal, setActiveModal] = React.useState("");
   const [weatherData, setWeatherData] = React.useState({});
   const [clothingItems, setClothingItems] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   const handleClose = () => {
-    setModalState("none");
+    setActiveModal("");
   };
 
   React.useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
         .then((data) => {
           setWeatherData(filterWeatherData(data));
         })
-        .catch((err) => console.error(err));
+        .catch(console.error);
     }
   }, []);
 
@@ -37,7 +37,7 @@ function App() {
     <div className="app">
       <Header
         weatherData={weatherData}
-        onAddItem={() => setModalState("garment")}
+        onAddItem={() => setActiveModal("garment")}
       />
       <Main
         weatherData={weatherData}
@@ -45,17 +45,18 @@ function App() {
         onCardClick={(card) => {
           console.log(card);
           setSelectedCard(card);
-          setModalState("preview");
+          setActiveModal("preview");
         }}
       />
       <Footer />
-      {modalState === "garment" && (
+      {activeModal === "garment" && (
         <ModalWithForm
           title="New Garment"
           name="garment"
           handleClose={handleClose}
+          buttonText={"Add"}
         >
-          <label className="form__label" for={"garment-name"}>
+          <label className="form__label" htmlFor={"garment-name"}>
             Name
             <input
               className="form__input"
@@ -68,7 +69,7 @@ function App() {
             />
           </label>
 
-          <label className="form__label" for={"garment-image"}>
+          <label className="form__label" htmlFor={"garment-image"}>
             Image
             <input
               className="form__input"
@@ -88,11 +89,12 @@ function App() {
               <input
                 className="form__radio"
                 type="radio"
+                name="weather"
                 id="hot"
                 value="hot"
               />
 
-              <label className="form__radio-text" for="hot">
+              <label className="form__radio-text" htmlFor="hot">
                 Hot
               </label>
             </li>
@@ -101,11 +103,12 @@ function App() {
               <input
                 className="form__radio"
                 type="radio"
+                name="weather"
                 id="warm"
                 value="warm"
               />
 
-              <label className="form__radio-text" for="warm">
+              <label className="form__radio-text" htmlFor="warm">
                 Warm
               </label>
             </li>
@@ -114,18 +117,19 @@ function App() {
               <input
                 className="form__radio"
                 type="radio"
+                name="weather"
                 id="cold"
                 value="cold"
               />
 
-              <label className="form__radio-text" for="cold">
+              <label className="form__radio-text" htmlFor="cold">
                 Cold
               </label>
             </li>
           </ul>
         </ModalWithForm>
       )}
-      {modalState === "preview" && (
+      {activeModal === "preview" && (
         <ItemModal
           name="preview"
           selectedCard={selectedCard}

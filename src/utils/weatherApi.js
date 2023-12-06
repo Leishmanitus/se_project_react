@@ -18,5 +18,6 @@ export function filterWeatherData(data) {
   weather.temperature = Math.floor(data.main.temp);
   weather.type = data.weather["0"].main.toLowerCase();
   weather.location = data.name;
+
   return weather;
 }

@@ -4,9 +4,6 @@ import ItemCard from "./ItemCard/ItemCard";
 import { useMemo } from "react";
 
 function Main({ weatherData, items, onCardClick }) {
-  const hours = new Date().getHours();
-  const isNight = hours >= 18 && hours <= 6;
-
   const temperature = weatherData.temperature;
   const weatherTemp = useMemo(() => {
     if (temperature >= 86) {
@@ -18,15 +15,12 @@ function Main({ weatherData, items, onCardClick }) {
     }
   });
 
-  const weatherType = weatherData.type;
+  const weatherType = weatherData.type || "clear";
+  console.log(weatherType);
 
   return (
     <main className="main">
-      <WeatherCard
-        temperature={temperature}
-        isNight={isNight}
-        weatherType={weatherType}
-      ></WeatherCard>
+      <WeatherCard temperature={temperature} weatherType={weatherType} />
       <section className="main__content">
         <p className="main__message">
           Today is {temperature}° F and it is {weatherTemp} / You may want to

@@ -1,4 +1,9 @@
 body {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f3f3;
   font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
   margin: 0;
 }
