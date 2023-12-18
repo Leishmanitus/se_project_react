@@ -1,9 +1,15 @@
+import React from "react";
 import "./Header.css";
 import { getDate } from "../../utils/utility";
 import wtwrLogo from "../../images/wtwr-logo.svg";
 import avatarDefault from "../../images/avatar.svg";
+import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
+import { CurrentTemperatureUnit } from "../../contexts/CurrentTemperatureUnitContext";
+// import Switch from "../Switch/Switch";
 
 function Header({ weatherData, onAddItem }) {
+  const temperature = React.useContext(CurrentTemperatureUnit);
+
   if (!weatherData) {
     return null;
   }
@@ -20,14 +26,15 @@ function Header({ weatherData, onAddItem }) {
         </p>
       </div>
       <div className="header__group">
+        <ToggleSwitch temperature={temperature} />
         <button
-          className="header__text header__text_button"
+          className="header__text header__text_type_button"
           type="text"
           onClick={onAddItem}
         >
           + Add Clothes
         </button>
-        <div className="header__profile-group">
+        <div className="header__group header__group_type_profile">
           <p className="header__text">{userName}</p>
           <div className="header__avatar-container">
             {avatar ? (

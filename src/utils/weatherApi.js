@@ -15,7 +15,8 @@ export function filterWeatherData(data) {
   }
 
   const weather = {};
-  weather.temperature = Math.floor(data.main.temp);
+  weather.temperature.F = `${Math.round(data.main.temp)}°F`;
+  weather.temperature.C = `${Math.round(((data.main.temp - 32) * 5) / 9)}°C`;
   weather.type = data.weather["0"].main.toLowerCase();
   weather.location = data.name;
 

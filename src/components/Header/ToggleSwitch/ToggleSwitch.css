@@ -1,0 +1,59 @@
+.toggle {
+  width: 56px;
+  height: 28px;
+  position: relative;
+  border-radius: 20px;
+  border: 2px solid #7e7e7e;
+  background: #fff;
+  margin: 0 20px 0 0;
+}
+
+.toggle__checkbox {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.toggle__label {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle__text {
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  flex-wrap: row nowrap;
+  justify-content: center;
+  align-items: center;
+  color: #7e7e7e;
+  font-family: Cabinet Grotesk;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toggle__text_on {
+  color: #fff;
+  cursor: default;
+}
+
+.toggle__circle {
+  z-index: 0;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  border: none;
+  border-radius: 20px;
+  background: #000;
+  transition: left 0.5s, right 0.5s;
+}
+
+.toggle__circle_on {
+  left: -2px;
+}

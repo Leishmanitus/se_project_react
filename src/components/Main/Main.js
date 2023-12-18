@@ -1,10 +1,12 @@
 import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
+import { CurrentTemperatureUnit } from "../../contexts/CurrentTemperatureUnitContext";
 import { useMemo } from "react";
 
 function Main({ weatherData, items, onCardClick }) {
-  const temperature = weatherData.temperature;
+  const currentTemperatureUnit = React.useContext(CurrentTemperatureUnit);
+  const temperature = weatherData.temperature[currentTemperatureUnit];
   const weatherTemp = useMemo(() => {
     if (temperature >= 86) {
       return "hot";
@@ -16,11 +18,10 @@ function Main({ weatherData, items, onCardClick }) {
   });
 
   const weatherType = weatherData.type || "clear";
-  console.log(weatherType);
 
   return (
     <main className="main">
-      <WeatherCard temperature={temperature} weatherType={weatherType} />
+      <WeatherCard weatherData={weatherData} weatherType={weatherType} />
       <section className="main__content">
         <p className="main__message">
           Today is {temperature}° F and it is {weatherTemp} / You may want to
