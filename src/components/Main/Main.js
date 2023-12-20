@@ -1,18 +1,22 @@
+import React from "react";
+import { useMemo } from "react";
 import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
-import { CurrentTemperatureUnit } from "../../contexts/CurrentTemperatureUnitContext";
-import { useMemo } from "react";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
 function Main({ weatherData, items, onCardClick }) {
-  const currentTemperatureUnit = React.useContext(CurrentTemperatureUnit);
-  const temperature = weatherData.temperature[currentTemperatureUnit];
+  const { currentTemperatureUnit } = React.useContext(
+    CurrentTemperatureUnitContext
+  );
+  // const temperature = weatherData.temperature[currentTemperatureUnit];
+  // console.log(weatherData["temperature"][currentTemperatureUnit]);
   const weatherTemp = useMemo(() => {
-    if (temperature >= 86) {
+    if (weatherData.temperature >= 86) {
       return "hot";
-    } else if (temperature >= 66 && temperature <= 85) {
+    } else if (weatherData.temperature >= 66 && weatherData.temperature <= 85) {
       return "warm";
-    } else if (temperature <= 65) {
+    } else if (weatherData.temperature <= 65) {
       return "cold";
     }
   });
@@ -24,8 +28,8 @@ function Main({ weatherData, items, onCardClick }) {
       <WeatherCard weatherData={weatherData} weatherType={weatherType} />
       <section className="main__content">
         <p className="main__message">
-          Today is {temperature}° F and it is {weatherTemp} / You may want to
-          wear:
+          Today is {weatherData.temperature} and it is {weatherTemp} / You may
+          want to wear:
         </p>
         <div className="main__cards">
           {items

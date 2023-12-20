@@ -11,7 +11,7 @@ import {
   Route,
   Switch,
 } from "react-router-dom/cjs/react-router-dom.min";
-import { CurrentTemperatureUnit } from "../contexts/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import { filterWeatherData, getWeatherForecast } from "../utils/weatherApi";
 import { defaultClothingItems, prefferedLocation } from "../utils/constants";
 import { secretKey } from "../secret";
@@ -21,9 +21,9 @@ function App() {
   const [weatherData, setWeatherData] = React.useState({});
   const [clothingItems, setClothingItems] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState(null);
-
   const [currentTemperatureUnit, setCurrentTemperatureUnit] =
     React.useState("F");
+  console.log(currentTemperatureUnit);
 
   const handleClose = () => {
     setActiveModal("");
@@ -52,7 +52,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <CurrentTemperatureUnit.Provider
+        <CurrentTemperatureUnitContext.Provider
           value={{ currentTemperatureUnit, handleToggleSwitchChange }}
         >
           <Header
@@ -76,6 +76,7 @@ function App() {
             </Route>
           </Switch>
           <Footer />
+
           {activeModal === "garment" && (
             <ModalWithForm
               title="New Garment"
@@ -163,7 +164,7 @@ function App() {
               handleClose={handleClose}
             />
           )}
-        </CurrentTemperatureUnit.Provider>
+        </CurrentTemperatureUnitContext.Provider>
       </div>
     </BrowserRouter>
   );
