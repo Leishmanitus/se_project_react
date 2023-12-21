@@ -5,12 +5,13 @@ import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
-function Main({ weatherData, items, onCardClick }) {
+function Main({ weatherData, items, onCardClick, onCardDelete }) {
   const { currentTemperatureUnit } = React.useContext(
     CurrentTemperatureUnitContext
   );
   // const temperature = weatherData.temperature[currentTemperatureUnit];
   // console.log(weatherData["temperature"][currentTemperatureUnit]);
+  if (!weatherData) return null;
   const weatherTemp = useMemo(() => {
     if (weatherData.temperature >= 86) {
       return "hot";
@@ -39,6 +40,7 @@ function Main({ weatherData, items, onCardClick }) {
                 key={filteredCard._id}
                 card={filteredCard}
                 onCardClick={() => onCardClick(filteredCard)}
+                onCardDelete={onCardDelete}
               />
             ))}
         </div>

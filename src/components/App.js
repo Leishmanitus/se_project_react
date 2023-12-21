@@ -13,8 +13,13 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import { filterWeatherData, getWeatherForecast } from "../utils/weatherApi";
-import { defaultClothingItems, prefferedLocation } from "../utils/constants";
+import {
+  defaultClothingItems,
+  prefferedLocation,
+  modalOptions,
+} from "../utils/constants";
 import { secretKey } from "../secret";
+import api from "../utils/api";
 
 function App() {
   const [activeModal, setActiveModal] = React.useState("");
@@ -24,10 +29,6 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] =
     React.useState("F");
   console.log(currentTemperatureUnit);
-
-  const handleClose = () => {
-    setActiveModal("");
-  };
 
   React.useEffect(() => {
     if (prefferedLocation.latitude && prefferedLocation.longitude) {
@@ -39,15 +40,50 @@ function App() {
     }
   }, []);
 
+  React.useEffect(() => {
+    api
+      .getItemsList()
+      .then((items) => setClothingItems(items))
+      .catch((err) => console.error(err));
+  }, []);
+
+  const handleModalChange = (modalName) => {
+    setActiveModal(modalName);
+  };
+
+  const handleClose = () => {
+    setActiveModal("");
+  };
+
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
       : setCurrentTemperatureUnit("F");
   };
 
-  React.useEffect(() => {
-    setClothingItems(defaultClothingItems);
-  }, []);
+  const onCardClick = (card) => {
+    setSelectedCard(card);
+    setActiveModal("preview");
+  };
+
+  const onSubmit = (item) => {
+    api
+      .addItem(item)
+      .then((newItem) => {
+        setClothingItems([newItem, ...clothingItems]);
+        handleClose();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const onCardDelete = (card) => {
+    api
+      .removeItem(card.id)
+      .then(() => {
+        setClothingItems((cards) => cards.filter((c) => c.id !== card.id));
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <BrowserRouter>
@@ -55,107 +91,44 @@ function App() {
         <CurrentTemperatureUnitContext.Provider
           value={{ currentTemperatureUnit, handleToggleSwitchChange }}
         >
-          <Header
-            weatherData={weatherData}
-            onAddItem={() => setActiveModal("garment")}
-          />
+          <Header weatherData={weatherData} onAddItem={handleModalChange} />
           <Switch>
-            <Route exact path="/">
-              <Main
-                weatherData={weatherData}
-                items={clothingItems}
-                onCardClick={(card) => {
-                  console.log(card);
-                  setSelectedCard(card);
-                  setActiveModal("preview");
-                }}
-              />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
+            <Route
+              exact
+              path="/"
+              element={
+                (weatherData.temperature.F || weatherData.temperature.C) && (
+                  <Main
+                    weatherData={weatherData}
+                    items={clothingItems}
+                    onCardClick={onCardClick}
+                    onCardDelete={onCardDelete}
+                  />
+                )
+              }
+            ></Route>
+            <Route
+              path="/profile"
+              element={
+                clothingItems.length !== 0 && (
+                  <Profile
+                    cards={clothingItems}
+                    onCardClick={onCardClick}
+                    onCardDelete={onCardDelete}
+                    onAddItem={handleModalChange}
+                  />
+                )
+              }
+            ></Route>
           </Switch>
           <Footer />
 
           {activeModal === "garment" && (
             <ModalWithForm
-              title="New Garment"
-              name="garment"
+              options={modalOptions.formOptions}
               handleClose={handleClose}
-              buttonText={"Add"}
-            >
-              <label className="form__label" htmlFor={"garment-name"}>
-                Name
-                <input
-                  className="form__input"
-                  id={"garment-name"}
-                  name="name"
-                  placeholder="Name"
-                  minLength="2"
-                  maxLength="40"
-                  required
-                />
-              </label>
-
-              <label className="form__label" htmlFor={"garment-image"}>
-                Image
-                <input
-                  className="form__input"
-                  id={"garment-image"}
-                  name="image"
-                  placeholder="Image URL"
-                  minLength="2"
-                  maxLength="200"
-                  required
-                />
-              </label>
-
-              <p className="form__message">Select the weather type:</p>
-
-              <ul className="form__list">
-                <li className="form__list-item">
-                  <input
-                    className="form__radio"
-                    type="radio"
-                    name="weather"
-                    id="hot"
-                    value="hot"
-                  />
-
-                  <label className="form__radio-text" htmlFor="hot">
-                    Hot
-                  </label>
-                </li>
-
-                <li className="form__list-item">
-                  <input
-                    className="form__radio"
-                    type="radio"
-                    name="weather"
-                    id="warm"
-                    value="warm"
-                  />
-
-                  <label className="form__radio-text" htmlFor="warm">
-                    Warm
-                  </label>
-                </li>
-
-                <li className="form__list-item">
-                  <input
-                    className="form__radio"
-                    type="radio"
-                    name="weather"
-                    id="cold"
-                    value="cold"
-                  />
-
-                  <label className="form__radio-text" htmlFor="cold">
-                    Cold
-                  </label>
-                </li>
-              </ul>
-            </ModalWithForm>
+              onSubmit={onSubmit}
+            />
           )}
           {activeModal === "preview" && (
             <ItemModal

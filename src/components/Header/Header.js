@@ -28,7 +28,7 @@ function Header({ weatherData, onAddItem }) {
         <button
           className="header__text header__text_type_button"
           type="text"
-          onClick={onAddItem}
+          onClick={() => onAddItem("garment")}
         >
           + Add Clothes
         </button>
