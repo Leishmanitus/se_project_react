@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./ToggleSwitch.css";
 import CurrentTemperatureUnitContext from "../../../contexts/CurrentTemperatureUnitContext";
 
 const ToggleSwitch = () => {
-  const { currentTemperatureUnit, handleToggleSwitchChange } = React.useContext(
+  const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
   );
   const [isChecked, setIsChecked] = useState(currentTemperatureUnit === "C");
@@ -13,19 +13,9 @@ const ToggleSwitch = () => {
   );
 
   const handleToggleSwitchClick = () => {
-    const elementArray = [
-      document.querySelector("#fahrenheit"),
-      document.querySelector("#celsius"),
-    ];
-
-    function toggleElement(element) {
-      if (element.classList.contains("toggle__text_on")) {
-        element.classList.remove("toggle__text_on");
-      }
-      element.classList.add("toggle__text_on");
-    }
-
-    elementArray.forEach((element) => toggleElement(element));
+    document.querySelector("#fahrenheit").classList.toggle("toggle__text_on");
+    document.querySelector("#celsius").classList.toggle("toggle__text_on");
+    document.querySelector("#circle").classList.toggle("toggle__circle_on");
   };
 
   return (
@@ -34,10 +24,8 @@ const ToggleSwitch = () => {
         <input
           className="toggle__checkbox"
           type="checkbox"
-          onClick={handleToggleSwitchClick}
-          onChange={handleToggleSwitchChange}
-          checked={isChecked}
-          value={currentTemperatureUnit}
+          onClick={() => handleToggleSwitchClick()}
+          onChange={() => handleToggleSwitchChange(isChecked)}
         />
         <p className="toggle__text toggle__text_on" id="fahrenheit">
           F
@@ -45,7 +33,7 @@ const ToggleSwitch = () => {
         <p className="toggle__text" id="celsius">
           C
         </p>
-        <span className="toggle__circle toggle__circle_on" />
+        <span className="toggle__circle" id="circle" />
       </label>
     </div>
   );

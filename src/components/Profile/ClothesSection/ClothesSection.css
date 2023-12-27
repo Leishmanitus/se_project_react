@@ -1,0 +1,39 @@
+.clothes {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.clothes__message-group {
+  height: 25px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 16px 0 16px 0;
+}
+
+.clothes__message {
+  color: #000;
+  font-family: Cabinet Grotesk;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 20px 0 0;
+}
+
+.clothes__button_type_add-item {
+  color: rgba(0, 0, 0, 0.6);
+  background-color: #f3f3f3;
+  font-family: Cabinet Grotesk;
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clothes__items {
+  width: 1015px;
+  display: grid;
+  grid-template-columns: repeat(3, 328px);
+  grid-auto-rows: 328px;
+  gap: 20px 17px;
+}

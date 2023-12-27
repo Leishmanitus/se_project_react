@@ -1,4 +1,4 @@
-const url = "http://localhost:3000";
+const url = "http://localhost:3001";
 const headers = {
   "Content-Type": "application/json",
 };
@@ -13,11 +13,11 @@ const getItemsList = () => {
   }).then(handleResponse);
 };
 
-const addItem = ({ name, weather, link }) => {
+const addItem = ({ name, weather, imageUrl }) => {
   return fetch(`${url}/items`, {
     method: "POST",
     headers: headers,
-    body: JSON.stringify({ name, weather, link }),
+    body: JSON.stringify({ name, weather, imageUrl }),
   }).then(handleResponse);
 };
 

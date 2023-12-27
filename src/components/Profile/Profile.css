@@ -1,2 +1,16 @@
 .profile {
+  max-width: 1360px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  margin: 47px 40px 0;
+}
+
+.profile__sidebar {
+  width: 328px;
+}
+
+.profile__clothes {
+  width: 656px;
 }

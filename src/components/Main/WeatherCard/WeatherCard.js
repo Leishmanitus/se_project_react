@@ -1,24 +1,34 @@
+import { useContext, useEffect } from "react";
 import "./WeatherCard.css";
 import CurrentTemperatureUnitContext from "../../../contexts/CurrentTemperatureUnitContext";
-import React from "react";
 
-function WeatherCard({ weatherData, weatherType }) {
-  const { currentTemperatureUnit } = React.useContext(
+function WeatherCard() {
+  const { currentTemperatureUnit, weatherData } = useContext(
     CurrentTemperatureUnitContext
   );
-  // const temperature = weatherData.temperature[currentTemperatureUnit];
-  const night = require(`../../../images/weather/night/${weatherType}.svg`);
-  const day = require(`../../../images/weather/day/${weatherType}.svg`);
 
   const hours = new Date().getHours();
   const isNight = hours >= 18 || hours <= 6;
 
+  const weatherCardUrl = require(`../../../images/weather/${
+    isNight ? "night" : "day"
+  }/${weatherData.type}.svg`);
+  // const day = require(`../../../images/weather/day/${weatherData.type}.svg`);
+
+  let temperature = weatherData.temperature[currentTemperatureUnit];
+
+  const weatherType = weatherData.type || "clear";
+
+  useEffect(() => {
+    temperature = weatherData.temperature[currentTemperatureUnit];
+  }, [currentTemperatureUnit]);
+
   return (
     <section className="weather">
-      <p className="weather__temperature">{weatherType}</p>
+      <p className="weather__temperature">{temperature}</p>
       <img
         className="weather__card"
-        src={isNight ? night : day}
+        src={weatherCardUrl}
         alt="The current weather."
       />
     </section>

@@ -1,45 +1,48 @@
-import React from "react";
-import { useMemo } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import ClothingItemContext from "../../contexts/ClothingItemContext";
 
-function Main({ weatherData, items, onCardClick, onCardDelete }) {
-  const { currentTemperatureUnit } = React.useContext(
+function Main({ onCardClick, onCardDelete }) {
+  const { currentTemperatureUnit, weatherData } = useContext(
     CurrentTemperatureUnitContext
   );
-  // const temperature = weatherData.temperature[currentTemperatureUnit];
-  // console.log(weatherData["temperature"][currentTemperatureUnit]);
-  if (!weatherData) return null;
-  const weatherTemp = useMemo(() => {
-    if (weatherData.temperature >= 86) {
+  const { clothingItems } = useContext(ClothingItemContext);
+  const temperature = weatherData.temperature[currentTemperatureUnit];
+
+  const handleWeatherCondition = (temperature) => {
+    const trueTemperature = temperature.split("°")[0];
+    if (trueTemperature >= 73) {
       return "hot";
-    } else if (weatherData.temperature >= 66 && weatherData.temperature <= 85) {
+    } else if (trueTemperature >= 59 && trueTemperature <= 72) {
       return "warm";
-    } else if (weatherData.temperature <= 65) {
+    } else if (trueTemperature <= 58) {
       return "cold";
     }
-  });
+  };
 
-  const weatherType = weatherData.type || "clear";
+  const weatherCondition = handleWeatherCondition(temperature);
+
+  if (!weatherData) return null;
 
   return (
     <main className="main">
-      <WeatherCard weatherData={weatherData} weatherType={weatherType} />
+      <WeatherCard />
       <section className="main__content">
         <p className="main__message">
-          Today is {weatherData.temperature} and it is {weatherTemp} / You may
-          want to wear:
+          Today is {temperature} and it is {weatherCondition} / You may want to
+          wear:
         </p>
         <div className="main__cards">
-          {items
-            .filter((card) => card.weather === weatherTemp)
+          {clothingItems
+            .filter((card) => card.weather === weatherCondition)
             .map((filteredCard) => (
               <ItemCard
                 key={filteredCard._id}
                 card={filteredCard}
-                onCardClick={() => onCardClick(filteredCard)}
+                onCardClick={onCardClick}
                 onCardDelete={onCardDelete}
               />
             ))}

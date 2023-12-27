@@ -3,21 +3,20 @@ import "./Profile.css";
 import SideBar from "./SideBar/SideBar";
 import ClothesSection from "./ClothesSection/ClothesSection";
 
-const Profile = (cards, onCardClick, onCardDelete, onAddItem) => {
+const Profile = (onCardClick, onCardDelete, onAddItem) => {
   return (
-    <div className="profile">
-      <section className="profile__sidebar">
+    <main className="profile">
+      <section className="profile__sidebar sidebar">
         <SideBar />
       </section>
-      <section className="profile__clothes">
+      <section className="profile__clothes clothes">
         <ClothesSection
-          secitonData={cards}
           onCardClick={onCardClick}
           onCardDelete={onCardDelete}
-          onAddItem={() => onAddItem("garment")}
+          onAddItem={onAddItem}
         />
       </section>
-    </div>
+    </main>
   );
 };
 

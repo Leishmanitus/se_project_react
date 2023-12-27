@@ -1,16 +1,27 @@
+import { useContext } from "react";
 import "./ModalWithForm.css";
+import ClothingItemContext from "../../contexts/ClothingItemContext";
 
-function ModalWithForm({ children, title, name, handleClose, buttonText }) {
+function ModalWithForm({ options, handleClose }) {
+  const { title, name, buttonText } = options;
+  const { handleSubmitItem } = useContext(ClothingItemContext);
+
+  const nameInput = document.querySelector("#garment-name");
+
   return (
     <div className={`modal modal_type_${name}`}>
       <div className={`modal__container`}>
         <h3 className="modal__title">{title}</h3>
-        <form className="modal__form form" name={name}>
+        <form
+          className="modal__form form"
+          name={name}
+          onSubmit={() => handleSubmitItem({})}
+        >
           <label className="form__label" htmlFor={"garment-name"}>
             Name
             <input
               className="form__input"
-              id={"garment-name"}
+              id="garment-name"
               name="name"
               placeholder="Name"
               minLength="2"
@@ -23,7 +34,7 @@ function ModalWithForm({ children, title, name, handleClose, buttonText }) {
             Image
             <input
               className="form__input"
-              id={"garment-image"}
+              id="garment-image"
               name="image"
               placeholder="Image URL"
               minLength="2"
@@ -34,7 +45,7 @@ function ModalWithForm({ children, title, name, handleClose, buttonText }) {
 
           <p className="form__message">Select the weather type:</p>
 
-          <ul className="form__list">
+          <ul className="form__list" id="garment-weather" name="weather">
             <li className="form__list-item">
               <input
                 className="form__radio"
@@ -42,6 +53,7 @@ function ModalWithForm({ children, title, name, handleClose, buttonText }) {
                 name="weather"
                 id="hot"
                 value="hot"
+                htmlFor="garment-weather"
               />
 
               <label className="form__radio-text" htmlFor="hot">
@@ -56,6 +68,7 @@ function ModalWithForm({ children, title, name, handleClose, buttonText }) {
                 name="weather"
                 id="warm"
                 value="warm"
+                htmlFor="garment-weather"
               />
 
               <label className="form__radio-text" htmlFor="warm">
@@ -70,6 +83,7 @@ function ModalWithForm({ children, title, name, handleClose, buttonText }) {
                 name="weather"
                 id="cold"
                 value="cold"
+                htmlFor="garment-weather"
               />
 
               <label className="form__radio-text" htmlFor="cold">

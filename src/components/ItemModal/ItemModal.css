@@ -37,3 +37,11 @@
   right: 24px;
   background: url("../../images/close-icon-white.svg") center/cover no-repeat;
 }
+
+.modal__delete-button {
+  color: #ff4d00;
+  font-family: Cabinet Grotesk;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 120%;
+}
