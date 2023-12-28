@@ -103,6 +103,9 @@
       "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09"
     },
     {
+      "name": "Face Mask",
+      "weather": "cold",
+      "imageUrl": "https://www.google.com/aclk?sa=l&ai=DChcSEwiFlbmdnrGDAxUZFa0GHY-nA4kYABABGgJwdg&ase=2&gclid=CjwKCAiAs6-sBhBmEiwA1Nl8s-n6YJFpSHF5ZlhMlOySa3OtG_dAPzMkTQjnHQRo5BCyNBpuXWoTABoCTJQQAvD_BwE&sig=AOD64_1cNeuX",
       "_id": 17
     }
   ]

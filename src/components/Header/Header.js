@@ -6,9 +6,12 @@ import avatarDefault from "../../images/avatar.svg";
 import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import ModalContext from "../../contexts/ModalContext";
 
-function Header({ onAddItem }) {
+function Header() {
   const { weatherData } = useContext(CurrentTemperatureUnitContext);
+  const { handleModalChange } = useContext(ModalContext);
+
   const currentDate = getDate();
   const userName = "Tyler Leishman";
   const avatar = "";
@@ -28,7 +31,7 @@ function Header({ onAddItem }) {
         <button
           className="header__text header__text_type_button"
           type="text"
-          onClick={() => onAddItem("garment")}
+          onClick={() => handleModalChange("garment")}
         >
           + Add Clothes
         </button>

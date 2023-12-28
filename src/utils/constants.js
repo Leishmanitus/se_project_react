@@ -2,7 +2,18 @@ export const modalOptions = {
   formOptions: {
     title: "New Garment",
     name: "garment",
-    buttonText: "Add",
+    buttonText: "Add garment",
+  },
+  previewOptions: {
+    name: "preview",
+    deleteButton: "Delete item",
+  },
+  confirmationOptions: {
+    name: "confirm",
+    message:
+      "Are you sure you want to delete this item? This action is irreversible.",
+    confirmButton: "Yes, delete item",
+    cancelButton: "Cancel",
   },
 };
 

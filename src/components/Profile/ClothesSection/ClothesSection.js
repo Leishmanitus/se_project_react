@@ -1,11 +1,10 @@
 import "./ClothesSection.css";
 import ItemCard from "../../Main/ItemCard/ItemCard";
 import { useContext } from "react";
-import ClothingItemContext from "../../../contexts/ClothingItemContext";
+import ModalContext from "../../../contexts/ModalContext";
 
-const ClothesSection = (onCardClick, onCardDelete, onAddItem) => {
-  const { clothingItems } = useContext(ClothingItemContext);
-
+const ClothesSection = ({ clothingItems }) => {
+  const { handleModalChange } = useContext(ModalContext);
   return (
     <>
       <div className="clothes__message-group">
@@ -13,19 +12,14 @@ const ClothesSection = (onCardClick, onCardDelete, onAddItem) => {
         <button
           className="clothes__button_type_add-item"
           type="button"
-          onClick={() => onAddItem("garment")}
+          onClick={() => handleModalChange("garment")}
         >
           + Add new
         </button>
       </div>
       <div className="clothes__items">
         {clothingItems.map((card) => (
-          <ItemCard
-            key={card._id}
-            card={card}
-            onCardClick={() => onCardClick(card)}
-            onCardDelete={() => onCardDelete(card)}
-          />
+          <ItemCard key={card._id} card={card} />
         ))}
       </div>
     </>

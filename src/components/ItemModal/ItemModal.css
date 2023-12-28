@@ -10,6 +10,13 @@
   border-radius: 16px 16px 0 0;
 }
 
+.modal__group {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
 .modal__info {
   display: flex;
   flex-flow: column nowrap;
@@ -39,9 +46,14 @@
 }
 
 .modal__delete-button {
+  width: 110px;
+  height: 24px;
   color: #ff4d00;
+  background-color: #fff;
   font-family: Cabinet Grotesk;
   font-size: 20px;
   font-weight: 700;
   line-height: 120%;
+  border: none;
+  margin: 20px 32px 0 0;
 }

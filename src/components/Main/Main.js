@@ -3,13 +3,12 @@ import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
-import ClothingItemContext from "../../contexts/ClothingItemContext";
+import ModalContext from "../../contexts/ModalContext";
 
-function Main({ onCardClick, onCardDelete }) {
+function Main({ clothingItems }) {
   const { currentTemperatureUnit, weatherData } = useContext(
     CurrentTemperatureUnitContext
   );
-  const { clothingItems } = useContext(ClothingItemContext);
   const temperature = weatherData.temperature[currentTemperatureUnit];
 
   const handleWeatherCondition = (temperature) => {
@@ -39,12 +38,7 @@ function Main({ onCardClick, onCardDelete }) {
           {clothingItems
             .filter((card) => card.weather === weatherCondition)
             .map((filteredCard) => (
-              <ItemCard
-                key={filteredCard._id}
-                card={filteredCard}
-                onCardClick={onCardClick}
-                onCardDelete={onCardDelete}
-              />
+              <ItemCard key={filteredCard._id} card={filteredCard} />
             ))}
         </div>
       </section>
