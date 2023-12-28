@@ -2,19 +2,25 @@ import { useContext } from "react";
 import "./ConfirmationModal.css";
 import ModalContext from "../../contexts/ModalContext";
 
-const ConfirmationModal = ({ selectedItem, handleClose, handleDeleteItem }) => {
+const ConfirmationModal = ({ itemId, handleClose, handleDeleteItem }) => {
   const { modalOptions } = useContext(ModalContext);
-  const { name, message, confirmButton, cancelButton } =
+  const { title, message, confirmButton, cancelButton } =
     modalOptions.confirmationOptions;
 
+  const handleDelete = (event, itemId) => {
+    event.preventDefault();
+    handleDeleteItem(itemId);
+    handleClose();
+  };
+
   return (
-    <div className={`modal modal_type_${name}`}>
-      <div className={`modal__container modal__container_type_${name}`}>
+    <div className={`modal modal_type_${title}`}>
+      <div className={`modal__container modal__container_type_${title}`}>
         <p className="modal__message">{message}</p>
         <button
           className="modal__confirm-button"
           type="submit"
-          onClick={(event) => handleDeleteItem(event, selectedItem)}
+          onClick={(event) => handleDelete(event, itemId)}
         >
           {confirmButton}
         </button>

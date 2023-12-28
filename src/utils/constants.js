@@ -5,11 +5,11 @@ export const modalOptions = {
     buttonText: "Add garment",
   },
   previewOptions: {
-    name: "preview",
+    title: "preview",
     deleteButton: "Delete item",
   },
   confirmationOptions: {
-    name: "confirm",
+    title: "confirm",
     message:
       "Are you sure you want to delete this item? This action is irreversible.",
     confirmButton: "Yes, delete item",

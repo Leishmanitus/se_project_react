@@ -22,7 +22,7 @@ const addItem = ({ name, weather, imageUrl }) => {
 };
 
 const removeItem = (_id) => {
-  return fetch(`${url}/items/:${_id}`, {
+  return fetch(`${url}/items/${_id}`, {
     method: "DELETE",
     headers: headers,
   }).then(handleResponse);

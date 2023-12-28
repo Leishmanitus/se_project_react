@@ -51,9 +51,9 @@ function App() {
     isChecked ? setCurrentTemperatureUnit("F") : setCurrentTemperatureUnit("C");
   };
 
-  const handleItemClick = (Item) => {
-    setSelectedItem(Item);
-    setActiveModal("preview");
+  const handleItemClick = (item, modal) => {
+    setSelectedItem(item);
+    setActiveModal(modal);
   };
 
   const handleSubmitItem = (item) => {
@@ -66,11 +66,11 @@ function App() {
       .catch(console.error);
   };
 
-  const handleDeleteItem = (item) => {
+  const handleDeleteItem = (id) => {
     api
-      .removeItem(item._id)
+      .removeItem(id)
       .then(() => {
-        setClothingItems((items) => items.filter((i) => i._id !== item._id));
+        setClothingItems((items) => items.filter((i) => i._id !== id));
       })
       .catch(console.error);
   };
@@ -119,7 +119,7 @@ function App() {
           )}
           {activeModal === "confirm" && (
             <ConfirmationModal
-              selectedItem={selectedItem}
+              itemId={selectedItem._id}
               handleClose={handleClose}
               handleDeleteItem={handleDeleteItem}
             />
