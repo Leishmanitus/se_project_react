@@ -15,7 +15,7 @@ import api from "../utils/api";
 import ConfirmationModal from "./ConfirmationModal/ConfirmationModal";
 import AddItemModal from "./AddItemModal/AddItemModal";
 
-function App() {
+const App = () => {
   const [activeModal, setActiveModal] = useState("");
   const [weatherData, setWeatherData] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
@@ -70,13 +70,15 @@ function App() {
   };
 
   const handleDeleteItem = (id) => {
+    setIsLoading(true);
     api
       .removeItem(id)
       .then(() => {
         setClothingItems((items) => items.filter((i) => i._id !== id));
         handleClose();
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -131,6 +133,6 @@ function App() {
       </CurrentTemperatureUnitContext.Provider>
     </div>
   );
-}
+};
 
 export default App;

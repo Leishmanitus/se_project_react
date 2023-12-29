@@ -3,7 +3,7 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export const handleResponse = (res) => {
+const handleResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 };
 
@@ -13,7 +13,7 @@ export const request = (url, options) => {
 
 const getItemsList = () => {
   return request(`${url}/items`, {
-    headers: headers,
+    method: "GET",
   });
 };
 

@@ -5,27 +5,21 @@ import { useForm } from "../../hooks/useForm";
 import ModalContext from "../../contexts/ModalContext";
 
 const AddItemModal = ({ handleSubmitItem }) => {
-  const { handleClose, setIsLoading } = useContext(ModalContext);
-  const { values, handleChange, setValues } = useForm({
+  const initialValues = {
     name: "",
     imageUrl: "",
     weather: "hot",
-  });
+  };
+  const { handleClose, setIsLoading } = useContext(ModalContext);
+  const { values, handleChange, setValues } = useForm(initialValues);
 
   const { name, imageUrl, weather } = values;
-  console.log(name, imageUrl, weather);
 
   useEffect(() => {
-    setValues({
-      name: "",
-      imageUrl: "",
-      weather: "",
-    });
+    setValues(initialValues);
   }, [setValues]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setIsLoading(true);
+  const handleSubmit = () => {
     handleSubmitItem(values);
   };
 

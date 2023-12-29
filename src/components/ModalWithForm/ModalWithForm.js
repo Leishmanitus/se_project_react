@@ -17,7 +17,10 @@ function ModalWithForm({ children, handleSubmit }) {
           className="modal__form form"
           name={name}
           id={name}
-          onSubmit={handleSubmit}
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleSubmit();
+          }}
         >
           {children}
           <button className="form__submit" type="submit">

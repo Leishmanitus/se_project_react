@@ -1,12 +1,14 @@
-import { handleResponse, request } from "./api";
+import { request } from "./api";
 
-export function getWeatherForecast(locationData, secretKey) {
+export const getWeatherForecast = (locationData, secretKey) => {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${locationData.latitude}&lon=${locationData.longitude}&units=imperial&appid=${secretKey}`;
 
-  return request(url).then(handleResponse);
-}
+  return request(url, {
+    method: "GET",
+  });
+};
 
-export function filterWeatherData(data) {
+export const filterWeatherData = (data) => {
   if (!data) {
     return null;
   }
@@ -19,4 +21,4 @@ export function filterWeatherData(data) {
   weather.location = data.name;
 
   return weather;
-}
+};

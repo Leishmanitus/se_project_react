@@ -14,7 +14,7 @@ function WeatherCard() {
     isNight ? "night" : "day"
   }/${weatherData.type}.svg`);
 
-  let temperature = weatherData.temperature[currentTemperatureUnit];
+  const temperature = weatherData.temperature[currentTemperatureUnit];
 
   return (
     <section className="weather">
