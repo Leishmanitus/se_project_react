@@ -1,17 +1,18 @@
 import { useContext } from "react";
 import "./ConfirmationModal.css";
 import ModalContext from "../../contexts/ModalContext";
+import { useEscape } from "../../hooks/useEscape";
 
-const ConfirmationModal = ({ itemId, handleClose, handleDeleteItem }) => {
-  const { modalOptions } = useContext(ModalContext);
+const ConfirmationModal = ({ itemId, handleDeleteItem }) => {
+  const { handleClose, modalOptions } = useContext(ModalContext);
   const { title, message, confirmButton, cancelButton } =
     modalOptions.confirmationOptions;
 
-  const handleDelete = (event, itemId) => {
-    event.preventDefault();
+  const handleDelete = (itemId) => {
     handleDeleteItem(itemId);
-    handleClose();
   };
+
+  useEscape(handleClose);
 
   return (
     <div className={`modal modal_type_${title}`}>
@@ -19,8 +20,8 @@ const ConfirmationModal = ({ itemId, handleClose, handleDeleteItem }) => {
         <p className="modal__message">{message}</p>
         <button
           className="modal__confirm-button"
-          type="submit"
-          onClick={(event) => handleDelete(event, itemId)}
+          type="button"
+          onClick={() => handleDelete(itemId)}
         >
           {confirmButton}
         </button>

@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
-import ModalContext from "../../contexts/ModalContext";
 
 function Main({ clothingItems }) {
   const { currentTemperatureUnit, weatherData } = useContext(
@@ -12,12 +11,21 @@ function Main({ clothingItems }) {
   const temperature = weatherData.temperature[currentTemperatureUnit];
 
   const handleWeatherCondition = (temperature) => {
-    const trueTemperature = temperature.split("°")[0];
-    if (trueTemperature >= 73) {
+    const tempArr = temperature.split("°");
+    const trueTemperature = tempArr[0];
+    const tempUnit = tempArr[1];
+
+    if (tempUnit === "F" ? trueTemperature >= 73 : trueTemperature >= 23) {
       return "hot";
-    } else if (trueTemperature >= 59 && trueTemperature <= 72) {
+    } else if (
+      tempUnit === "F"
+        ? trueTemperature >= 59 && trueTemperature <= 72
+        : trueTemperature >= 15 && trueTemperature <= 22
+    ) {
       return "warm";
-    } else if (trueTemperature <= 58) {
+    } else if (
+      tempUnit === "F" ? trueTemperature <= 58 : trueTemperature <= 14
+    ) {
       return "cold";
     }
   };

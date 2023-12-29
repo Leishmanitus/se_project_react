@@ -3,6 +3,7 @@ export const modalOptions = {
     title: "New Garment",
     name: "garment",
     buttonText: "Add garment",
+    loadingText: "...Saving",
   },
   previewOptions: {
     title: "preview",

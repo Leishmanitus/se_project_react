@@ -7,16 +7,6 @@ const ToggleSwitch = () => {
     CurrentTemperatureUnitContext
   );
   const [isChecked, setIsChecked] = useState(currentTemperatureUnit === "C");
-  useEffect(
-    () => setIsChecked(currentTemperatureUnit === "C"),
-    [currentTemperatureUnit]
-  );
-
-  const handleToggleSwitchClick = () => {
-    document.querySelector("#fahrenheit").classList.toggle("toggle__text_on");
-    document.querySelector("#celsius").classList.toggle("toggle__text_on");
-    document.querySelector("#circle").classList.toggle("toggle__circle_on");
-  };
 
   return (
     <div className="toggle">
@@ -24,16 +14,21 @@ const ToggleSwitch = () => {
         <input
           className="toggle__checkbox"
           type="checkbox"
-          onClick={() => handleToggleSwitchClick()}
-          onChange={() => handleToggleSwitchChange(isChecked)}
+          onChange={() => {
+            setIsChecked(!isChecked);
+            handleToggleSwitchChange(isChecked);
+          }}
+          checked={isChecked}
         />
-        <p className="toggle__text toggle__text_on" id="fahrenheit">
+        <p className={`toggle__text ${!isChecked ? "toggle__text_on" : ""}`}>
           F
         </p>
-        <p className="toggle__text" id="celsius">
+        <p className={`toggle__text ${isChecked ? "toggle__text_on" : ""}`}>
           C
         </p>
-        <span className="toggle__circle" id="circle" />
+        <span
+          className={`toggle__circle ${isChecked ? "toggle__circle_on" : ""}`}
+        />
       </label>
     </div>
   );

@@ -1,12 +1,16 @@
 import { useContext } from "react";
 import "./ItemModal.css";
 import ModalContext from "../../contexts/ModalContext";
+import { useEscape } from "../../hooks/useEscape";
 
-const ItemModal = ({ selectedItem, handleClose }) => {
-  const { handleItemClick, modalOptions } = useContext(ModalContext);
+const ItemModal = ({ selectedItem }) => {
+  const { handleClose, handleItemClick, modalOptions } =
+    useContext(ModalContext);
   const { title, deleteButton } = modalOptions.previewOptions;
 
   const { _id, name, imageUrl, weather } = selectedItem;
+
+  useEscape(handleClose);
 
   return (
     <div className={`modal modal_type_${title}`}>

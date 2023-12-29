@@ -21,6 +21,7 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (prefferedLocation.latitude && prefferedLocation.longitude) {
@@ -57,13 +58,15 @@ function App() {
   };
 
   const handleSubmitItem = (item) => {
+    setIsLoading(true);
     api
       .addItem(item)
       .then((newItem) => {
         setClothingItems([newItem, ...clothingItems]);
         handleClose();
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
   };
 
   const handleDeleteItem = (id) => {
@@ -71,6 +74,7 @@ function App() {
       .removeItem(id)
       .then(() => {
         setClothingItems((items) => items.filter((i) => i._id !== id));
+        handleClose();
       })
       .catch(console.error);
   };
@@ -86,9 +90,13 @@ function App() {
       >
         <ModalContext.Provider
           value={{
+            handleClose,
+            activeModal,
             handleItemClick,
             handleModalChange,
             modalOptions,
+            isLoading,
+            setIsLoading,
           }}
         >
           <Header />
@@ -108,19 +116,14 @@ function App() {
           <Footer />
 
           {activeModal === "garment" && (
-            <AddItemModal
-              activeModal={activeModal}
-              handleClose={handleClose}
-              handleSubmitItem={handleSubmitItem}
-            />
+            <AddItemModal handleSubmitItem={handleSubmitItem} />
           )}
           {activeModal === "preview" && (
-            <ItemModal selectedItem={selectedItem} handleClose={handleClose} />
+            <ItemModal selectedItem={selectedItem} />
           )}
           {activeModal === "confirm" && (
             <ConfirmationModal
               itemId={selectedItem._id}
-              handleClose={handleClose}
               handleDeleteItem={handleDeleteItem}
             />
           )}

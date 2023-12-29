@@ -13,15 +13,8 @@ function WeatherCard() {
   const weatherCardUrl = require(`../../../images/weather/${
     isNight ? "night" : "day"
   }/${weatherData.type}.svg`);
-  // const day = require(`../../../images/weather/day/${weatherData.type}.svg`);
 
   let temperature = weatherData.temperature[currentTemperatureUnit];
-
-  const weatherType = weatherData.type || "clear";
-
-  useEffect(() => {
-    temperature = weatherData.temperature[currentTemperatureUnit];
-  }, [currentTemperatureUnit]);
 
   return (
     <section className="weather">

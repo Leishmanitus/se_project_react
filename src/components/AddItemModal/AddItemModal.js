@@ -1,40 +1,36 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./AddItemModal.css";
+import { useForm } from "../../hooks/useForm";
+import ModalContext from "../../contexts/ModalContext";
 
-const AddItemModal = ({ activeModal, handleClose, handleSubmitItem }) => {
-  const [name, setName] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [weather, setWeather] = useState("hot");
+const AddItemModal = ({ handleSubmitItem }) => {
+  const { handleClose, setIsLoading } = useContext(ModalContext);
+  const { values, handleChange, setValues } = useForm({
+    name: "",
+    imageUrl: "",
+    weather: "hot",
+  });
+
+  const { name, imageUrl, weather } = values;
+  console.log(name, imageUrl, weather);
 
   useEffect(() => {
-    const inputArr = document.querySelectorAll(".form__input");
-    inputArr.forEach((input) => (input.value = ""));
-  }, [activeModal === "garment"]);
+    setValues({
+      name: "",
+      imageUrl: "",
+      weather: "",
+    });
+  }, [setValues]);
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-  const handleImageUrlChange = (event) => {
-    setImageUrl(event.target.value);
-  };
-  const handleWeatherChange = (event) => {
-    setWeather(event.target.value);
-  };
-
-  const handleSubmit = (event, item) => {
-    const { name, imageUrl, weather } = item;
-    console.log(name, imageUrl, weather);
+  const handleSubmit = (event) => {
     event.preventDefault();
-    handleSubmitItem({ name, imageUrl, weather });
-    handleClose();
+    setIsLoading(true);
+    handleSubmitItem(values);
   };
 
   return (
-    <ModalWithForm
-      handleClose={handleClose}
-      handleSubmit={(event) => handleSubmit(event, { name, imageUrl, weather })}
-    >
+    <ModalWithForm handleClose={handleClose} handleSubmit={handleSubmit}>
       <label className="form__label" htmlFor={"garment-name"}>
         Name
         <input
@@ -46,7 +42,7 @@ const AddItemModal = ({ activeModal, handleClose, handleSubmitItem }) => {
           maxLength="40"
           type="text"
           value={name}
-          onChange={handleNameChange}
+          onChange={handleChange}
           required
         />
       </label>
@@ -56,13 +52,13 @@ const AddItemModal = ({ activeModal, handleClose, handleSubmitItem }) => {
         <input
           className="form__input"
           id="garment-image"
-          name="image"
+          name="imageUrl"
           placeholder="Image URL"
           minLength="2"
           maxLength="200"
           type="text"
           value={imageUrl}
-          onChange={handleImageUrlChange}
+          onChange={handleChange}
           required
         />
       </label>
@@ -77,8 +73,8 @@ const AddItemModal = ({ activeModal, handleClose, handleSubmitItem }) => {
             name="weather"
             id="hot"
             value="hot"
-            htmlFor="garment-weather"
-            onChange={handleWeatherChange}
+            onChange={handleChange}
+            checked={weather === "hot"}
           />
 
           <label className="form__radio-text" htmlFor="hot">
@@ -93,8 +89,8 @@ const AddItemModal = ({ activeModal, handleClose, handleSubmitItem }) => {
             name="weather"
             id="warm"
             value="warm"
-            htmlFor="garment-weather"
-            onChange={handleWeatherChange}
+            onChange={handleChange}
+            checked={weather === "warm"}
           />
 
           <label className="form__radio-text" htmlFor="warm">
@@ -109,8 +105,8 @@ const AddItemModal = ({ activeModal, handleClose, handleSubmitItem }) => {
             name="weather"
             id="cold"
             value="cold"
-            htmlFor="garment-weather"
-            onChange={handleWeatherChange}
+            onChange={handleChange}
+            checked={weather === "cold"}
           />
 
           <label className="form__radio-text" htmlFor="cold">

@@ -1,10 +1,13 @@
 import { useContext } from "react";
 import "./ModalWithForm.css";
 import ModalContext from "../../contexts/ModalContext";
+import { useEscape } from "../../hooks/useEscape";
 
-function ModalWithForm({ children, handleClose, handleSubmit }) {
-  const { modalOptions } = useContext(ModalContext);
-  const { title, name, buttonText } = modalOptions.formOptions;
+function ModalWithForm({ children, handleSubmit }) {
+  const { handleClose, modalOptions, isLoading } = useContext(ModalContext);
+  const { title, name, buttonText, loadingText } = modalOptions.formOptions;
+
+  useEscape(handleClose);
 
   return (
     <div className={`modal modal_type_${name}`}>
@@ -17,11 +20,11 @@ function ModalWithForm({ children, handleClose, handleSubmit }) {
           onSubmit={handleSubmit}
         >
           {children}
-          <button className="form__submit" type="submit" htmlFor={name}>
-            {buttonText}
+          <button className="form__submit" type="submit">
+            {isLoading ? loadingText : buttonText}
           </button>
         </form>
-        <button className="modal__close-button" onClick={handleClose}></button>
+        <button className="modal__close-button" onClick={handleClose} />
       </div>
     </div>
   );

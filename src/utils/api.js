@@ -3,29 +3,33 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-const handleResponse = (res) => {
+export const handleResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 };
 
+export const request = (url, options) => {
+  return fetch(url, options).then(handleResponse);
+};
+
 const getItemsList = () => {
-  return fetch(`${url}/items`, {
+  return request(`${url}/items`, {
     headers: headers,
-  }).then(handleResponse);
+  });
 };
 
 const addItem = ({ name, weather, imageUrl }) => {
-  return fetch(`${url}/items`, {
+  return request(`${url}/items`, {
     method: "POST",
     headers: headers,
     body: JSON.stringify({ name, weather, imageUrl }),
-  }).then(handleResponse);
+  });
 };
 
 const removeItem = (_id) => {
-  return fetch(`${url}/items/${_id}`, {
+  return request(`${url}/items/${_id}`, {
     method: "DELETE",
     headers: headers,
-  }).then(handleResponse);
+  });
 };
 
 const api = {
