@@ -57,28 +57,28 @@ const App = () => {
     setActiveModal(modal);
   };
 
-  const handlePostRequest = (response) => {
+  const handleSubmit = (request) => {
     setIsLoading(true);
-    response
+    request()
       .then(handleClose)
       .catch(console.error)
       .finally(() => setIsLoading(false));
   };
 
   const handleSubmitItem = (items) => {
-    return handlePostRequest(
-      api.addItem(items).then((newItems) => {
+    return handleSubmit(() => {
+      return api.addItem(items).then((newItems) => {
         setClothingItems([newItems, ...clothingItems]);
-      })
-    );
+      });
+    });
   };
 
   const handleDeleteItem = (id) => {
-    return handlePostRequest(
-      api.removeItem(id).then(() => {
+    return handleSubmit(() => {
+      return api.removeItem(id).then(() => {
         setClothingItems((items) => items.filter((i) => i._id !== id));
-      })
-    );
+      });
+    });
   };
 
   return (

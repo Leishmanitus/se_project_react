@@ -4,13 +4,13 @@ import "./AddItemModal.css";
 import { useForm } from "../../hooks/useForm";
 import ModalContext from "../../contexts/ModalContext";
 
-const AddItemModal = ({ handleSubmitItem }) => {
+const AddItemModal = () => {
   const initialValues = {
     name: "",
     imageUrl: "",
     weather: "hot",
   };
-  const { handleClose, setIsLoading } = useContext(ModalContext);
+  const { handleSubmitItem } = useContext(ModalContext);
   const { values, handleChange, setValues } = useForm(initialValues);
 
   const { name, imageUrl, weather } = values;
@@ -19,8 +19,12 @@ const AddItemModal = ({ handleSubmitItem }) => {
     setValues(initialValues);
   }, [setValues]);
 
+  const handleSubmit = () => {
+    handleSubmitItem(values);
+  };
+
   return (
-    <ModalWithForm values={values}>
+    <ModalWithForm handleSubmit={handleSubmit}>
       <label className="form__label" htmlFor={"garment-name"}>
         Name
         <input

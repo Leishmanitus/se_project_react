@@ -13,8 +13,9 @@ export const modalOptions = {
     title: "confirm",
     message:
       "Are you sure you want to delete this item? This action is irreversible.",
-    confirmButton: "Yes, delete item",
-    cancelButton: "Cancel",
+    confirmText: "Yes, delete item",
+    cancelText: "Cancel",
+    loadingText: "...Deleting",
   },
 };
 

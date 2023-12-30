@@ -4,8 +4,8 @@ import ModalContext from "../../contexts/ModalContext";
 import { useEscape } from "../../hooks/useEscape";
 
 const ConfirmationModal = ({ itemId, handleDeleteItem }) => {
-  const { handleClose, modalOptions } = useContext(ModalContext);
-  const { title, message, confirmButton, cancelButton } =
+  const { handleClose, modalOptions, isLoading } = useContext(ModalContext);
+  const { title, message, confirmText, cancelText, loadingText } =
     modalOptions.confirmationOptions;
 
   useEscape(handleClose);
@@ -19,14 +19,14 @@ const ConfirmationModal = ({ itemId, handleDeleteItem }) => {
           type="button"
           onClick={() => handleDeleteItem(itemId)}
         >
-          {confirmButton}
+          {isLoading ? loadingText : confirmText}
         </button>
         <button
           className="modal__cancel-button"
           type="button"
           onClick={handleClose}
         >
-          {cancelButton}
+          {cancelText}
         </button>
         <button
           className="modal__close-button"
