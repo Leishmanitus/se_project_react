@@ -57,16 +57,21 @@ const App = () => {
     setActiveModal(modal);
   };
 
-  const handleSubmitItem = (item) => {
+  const handleSubmit = (request) => {
     setIsLoading(true);
-    api
-      .addItem(item)
-      .then((newItem) => {
-        setClothingItems([newItem, ...clothingItems]);
-        handleClose();
-      })
+    request()
+      .then(handleClose())
       .catch(console.error)
       .finally(() => setIsLoading(false));
+  };
+
+  const handleSubmitItem = (item) => {
+    const makeRequest = () => {
+      return api.addItem(item).then((newItem) => {
+        setClothingItems([newItem, ...clothingItems]);
+      });
+    };
+    handleSubmit(makeRequest);
   };
 
   const handleDeleteItem = (id) => {
