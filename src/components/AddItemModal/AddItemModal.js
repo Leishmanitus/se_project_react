@@ -19,12 +19,8 @@ const AddItemModal = ({ handleSubmitItem }) => {
     setValues(initialValues);
   }, [setValues]);
 
-  const handleSubmit = () => {
-    handleSubmitItem(values);
-  };
-
   return (
-    <ModalWithForm handleClose={handleClose} handleSubmit={handleSubmit}>
+    <ModalWithForm values={values}>
       <label className="form__label" htmlFor={"garment-name"}>
         Name
         <input

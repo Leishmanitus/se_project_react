@@ -3,8 +3,9 @@ import "./ModalWithForm.css";
 import ModalContext from "../../contexts/ModalContext";
 import { useEscape } from "../../hooks/useEscape";
 
-function ModalWithForm({ children, handleSubmit }) {
-  const { handleClose, modalOptions, isLoading } = useContext(ModalContext);
+function ModalWithForm({ children, values }) {
+  const { handleClose, handleSubmitItem, modalOptions, isLoading } =
+    useContext(ModalContext);
   const { title, name, buttonText, loadingText } = modalOptions.formOptions;
 
   useEscape(handleClose);
@@ -19,7 +20,7 @@ function ModalWithForm({ children, handleSubmit }) {
           id={name}
           onSubmit={(event) => {
             event.preventDefault();
-            handleSubmit();
+            handleSubmitItem(values);
           }}
         >
           {children}

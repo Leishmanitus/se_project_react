@@ -8,10 +8,6 @@ const ConfirmationModal = ({ itemId, handleDeleteItem }) => {
   const { title, message, confirmButton, cancelButton } =
     modalOptions.confirmationOptions;
 
-  const handleDelete = (itemId) => {
-    handleDeleteItem(itemId);
-  };
-
   useEscape(handleClose);
 
   return (
@@ -21,7 +17,7 @@ const ConfirmationModal = ({ itemId, handleDeleteItem }) => {
         <button
           className="modal__confirm-button"
           type="button"
-          onClick={() => handleDelete(itemId)}
+          onClick={() => handleDeleteItem(itemId)}
         >
           {confirmButton}
         </button>

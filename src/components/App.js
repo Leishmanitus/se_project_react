@@ -57,33 +57,28 @@ const App = () => {
     setActiveModal(modal);
   };
 
-  const handleSubmit = (request) => {
+  const handlePostRequest = (response) => {
     setIsLoading(true);
-    request()
-      .then(handleClose())
+    response
+      .then(handleClose)
       .catch(console.error)
       .finally(() => setIsLoading(false));
   };
 
-  const handleSubmitItem = (item) => {
-    const makeRequest = () => {
-      return api.addItem(item).then((newItem) => {
-        setClothingItems([newItem, ...clothingItems]);
-      });
-    };
-    handleSubmit(makeRequest);
+  const handleSubmitItem = (items) => {
+    return handlePostRequest(
+      api.addItem(items).then((newItems) => {
+        setClothingItems([newItems, ...clothingItems]);
+      })
+    );
   };
 
   const handleDeleteItem = (id) => {
-    setIsLoading(true);
-    api
-      .removeItem(id)
-      .then(() => {
+    return handlePostRequest(
+      api.removeItem(id).then(() => {
         setClothingItems((items) => items.filter((i) => i._id !== id));
-        handleClose();
       })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+    );
   };
 
   return (
@@ -101,6 +96,7 @@ const App = () => {
             activeModal,
             handleItemClick,
             handleModalChange,
+            handleSubmitItem,
             modalOptions,
             isLoading,
             setIsLoading,
