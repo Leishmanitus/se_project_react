@@ -7,13 +7,14 @@ import Footer from "./Footer/Footer";
 import ItemModal from "./ItemModal/ItemModal";
 import { Route, Switch } from "react-router-dom";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 import ModalContext from "../contexts/ModalContext";
 import { filterWeatherData, getWeatherForecast } from "../utils/weatherApi";
 import { prefferedLocation, modalOptions } from "../utils/constants";
 import { secretKey } from "../secret";
 import api from "../utils/api";
 import ConfirmationModal from "./ConfirmationModal/ConfirmationModal";
-import AddItemModal from "./AddItemModal/AddItemModal";
+import AddItemModal from "./ModalWithForm/AddItemModal/AddItemModal";
 
 const App = () => {
   const [activeModal, setActiveModal] = useState("");
@@ -21,6 +22,8 @@ const App = () => {
   const [clothingItems, setClothingItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [currentUser, setCurrentUser] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -82,6 +85,7 @@ const App = () => {
   };
 
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
       <CurrentTemperatureUnitContext.Provider
         value={{
@@ -133,6 +137,7 @@ const App = () => {
         </ModalContext.Provider>
       </CurrentTemperatureUnitContext.Provider>
     </div>
+    </CurrentUserContext.Provider>
   );
 };
 

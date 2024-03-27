@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./AddItemModal.css";
-import { useForm } from "../../hooks/useForm";
-import ModalContext from "../../contexts/ModalContext";
+import { useContext, useEffect } from "react";
+import ModalWithForm from "../ModalWithForm";
+import { useForm } from "../../../hooks/useForm";
+import ModalContext from "../../../contexts/ModalContext";
 
 const AddItemModal = () => {
   const initialValues = {
