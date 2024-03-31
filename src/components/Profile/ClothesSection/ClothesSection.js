@@ -18,9 +18,9 @@ const ClothesSection = ({ clothingItems }) => {
         </button>
       </div>
       <div className="clothes__items">
-        {clothingItems.map((card) => (
+        {clothingItems.map((card) => {
           <ItemCard key={card._id} card={card} />
-        ))}
+        })}
       </div>
     </>
   );

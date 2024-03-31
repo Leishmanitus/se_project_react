@@ -1,7 +1,4 @@
-const url = "http://localhost:3001";
-const headers = {
-  "Content-Type": "application/json",
-};
+import { url } from "./constants";
 
 const handleResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
@@ -17,18 +14,24 @@ const getItemsList = () => {
   });
 };
 
-const addItem = ({ name, weather, imageUrl }) => {
+const addItem = ({ name, weather, imageUrl }, token) => {
   return request(`${url}/items`, {
     method: "POST",
-    headers: headers,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify({ name, weather, imageUrl }),
   });
 };
 
-const removeItem = (_id) => {
+const removeItem = (_id, token) => {
   return request(`${url}/items/${_id}`, {
     method: "DELETE",
-    headers: headers,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
   });
 };
 

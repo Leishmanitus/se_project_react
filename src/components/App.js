@@ -5,7 +5,7 @@ import Profile from "./Profile/Profile";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 import ItemModal from "./ItemModal/ItemModal";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import ModalContext from "../contexts/ModalContext";
@@ -13,8 +13,11 @@ import { filterWeatherData, getWeatherForecast } from "../utils/weatherApi";
 import { prefferedLocation, modalOptions } from "../utils/constants";
 import { secretKey } from "../secret";
 import api from "../utils/api";
+import auth from "../utils/auth";
 import ConfirmationModal from "./ConfirmationModal/ConfirmationModal";
 import AddItemModal from "./ModalWithForm/AddItemModal/AddItemModal";
+import RegisterModal from "./ModalWithForm/RegisterModal/RegisterModal";
+import LoginModal from "./ModalWithForm/LoginModal/LoginModal";
 
 const App = () => {
   const [activeModal, setActiveModal] = useState("");
@@ -25,6 +28,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState();
 
   useEffect(() => {
     if (prefferedLocation.latitude && prefferedLocation.longitude) {
@@ -42,6 +46,21 @@ const App = () => {
       .then((items) => setClothingItems(items))
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      auth
+        .getContent(jwt)
+        .then((data) => {
+          setToken(data);
+          setIsLoggedIn(true);
+        })
+        .catch(console.error);
+    } else {
+      setIsLoggedIn(false);
+    }
+  })
 
   const handleModalChange = (modalName) => {
     setActiveModal(modalName);
@@ -84,8 +103,16 @@ const App = () => {
     });
   };
 
+  const handleRegistration = (request) => {
+    setIsLoading(true);
+    request()
+      .then(handleClose)
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }
+
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={{currentUser, isLoggedIn}}>
     <div className="app">
       <CurrentTemperatureUnitContext.Provider
         value={{
@@ -115,9 +142,9 @@ const App = () => {
                 )}
             </Route>
             <Route path="/profile">
-              {clothingItems.length !== 0 && weatherData.temperature && (
+              {isLoggedIn ? (clothingItems.length !== 0 && weatherData.temperature) && (
                 <Profile clothingItems={clothingItems} />
-              )}
+              ) : <Redirect to={"/signin"} />}
             </Route>
           </Switch>
           <Footer />
@@ -133,6 +160,12 @@ const App = () => {
               itemId={selectedItem._id}
               handleDeleteItem={handleDeleteItem}
             />
+          )}
+          {activeModal === "signup" && (
+            <RegisterModal handleRegistration={handleRegistration} />
+          )}
+          {activeModal === "signin" && (
+            <LoginModal />
           )}
         </ModalContext.Provider>
       </CurrentTemperatureUnitContext.Provider>

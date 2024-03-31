@@ -24,3 +24,5 @@ export const prefferedLocation = {
   latitude: 30.212942,
   longitude: -93.21891,
 };
+
+export const url = "http://localhost:3001";

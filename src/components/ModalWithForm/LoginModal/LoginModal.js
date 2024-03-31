@@ -4,6 +4,13 @@ import ModalWithForm from "../ModalWithForm";
 import { useForm } from "../../../hooks/useForm";
 import ModalContext from "../../../contexts/ModalContext";
 
-const LoginModal = () => {}
+const LoginModal = () => {
+
+    return (
+        <ModalWithForm>
+            
+        </ModalWithForm>
+    )
+}
 
 export default LoginModal;
