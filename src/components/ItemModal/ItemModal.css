@@ -61,3 +61,7 @@
   cursor: pointer;
   margin: 20px 32px 0 0;
 }
+
+.modal__delete-button_hidden {
+  visibility: hidden;
+}

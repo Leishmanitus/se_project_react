@@ -7,14 +7,14 @@ import ToggleSwitch from "./ToggleSwitch/ToggleSwitch";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import ModalContext from "../../contexts/ModalContext";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Header() {
   const { weatherData } = useContext(CurrentTemperatureUnitContext);
   const { handleModalChange } = useContext(ModalContext);
+  const { isLoggedIn, token, user } = useContext(CurrentUserContext);
 
   const currentDate = getDate();
-  const userName = "Tyler Leishman";
-  const avatar = "";
 
   return (
     <header className="header">
@@ -36,18 +36,18 @@ function Header() {
           + Add Clothes
         </button>
         <div className="header__group header__group_type_profile">
-          <p className="header__text">{userName}</p>
+          <p className="header__text">{user.name}</p>
           <NavLink className="header__link" to="/profile">
             <div className="header__avatar-container">
-              {avatar ? (
+              {user.avatar ? (
                 <img
                   className="header__avatar"
-                  src={avatar || avatarDefault}
+                  src={user.avatar || avatarDefault}
                   alt="Avatar"
                 />
               ) : (
                 <span className="header__avatar-letter">
-                  {userName.toUpperCase().charAt(0) || ""}
+                  {user.name.toUpperCase().charAt(0) || ""}
                 </span>
               )}
             </div>

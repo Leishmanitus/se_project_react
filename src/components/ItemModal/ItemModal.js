@@ -2,11 +2,17 @@ import { useContext } from "react";
 import "./ItemModal.css";
 import ModalContext from "../../contexts/ModalContext";
 import { useEscape } from "../../hooks/useEscape";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const ItemModal = ({ selectedItem }) => {
   const { handleClose, handleItemClick, modalOptions } =
     useContext(ModalContext);
+  const { user } = useContext(CurrentUserContext);
   const { title, deleteButton } = modalOptions.previewOptions;
+  const isOwn = selectedItem.owner === user._id;
+  const modalDeleteButtonClassName = (
+    `modal__delete-button ${isOwn ? 'modal__delete-button_visible' : 'modal__delete-button_hidden'}`
+  );
 
   const { _id, name, imageUrl, weather } = selectedItem;
 
@@ -26,7 +32,7 @@ const ItemModal = ({ selectedItem }) => {
             <p className="modal__weather">Weather: {weather}</p>
           </div>
           <button
-            className="modal__delete-button"
+            className={modalDeleteButtonClassName}
             onClick={() =>
               handleItemClick({ _id, name, imageUrl, weather }, "confirm")
             }

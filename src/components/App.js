@@ -18,6 +18,7 @@ import ConfirmationModal from "./ConfirmationModal/ConfirmationModal";
 import AddItemModal from "./ModalWithForm/AddItemModal/AddItemModal";
 import RegisterModal from "./ModalWithForm/RegisterModal/RegisterModal";
 import LoginModal from "./ModalWithForm/LoginModal/LoginModal";
+import EditProfileModal from "./EditProfileModal/EditProfileModal";
 
 const App = () => {
   const [activeModal, setActiveModal] = useState("");
@@ -25,10 +26,10 @@ const App = () => {
   const [clothingItems, setClothingItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-  const [currentUser, setCurrentUser] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState();
   const [token, setToken] = useState();
+  const [user, setUser] = useState({ name: "", avatar: "" });
 
   useEffect(() => {
     if (prefferedLocation.latitude && prefferedLocation.longitude) {
@@ -53,14 +54,29 @@ const App = () => {
       auth
         .getContent(jwt)
         .then((data) => {
-          setToken(data);
-          setIsLoggedIn(true);
+          setToken(jwt);
+          handleLogin(jwt, data);
         })
         .catch(console.error);
     } else {
       setIsLoggedIn(false);
     }
-  })
+  }, [])
+
+  const handleCheckToken = () => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      auth.getContent(jwt).then((res) => {
+        if (res) {
+          setIsLoggedIn(true);
+          setToken(jwt);
+          setUser({ name: res.name, avatar: res.avatar });
+          history.pushState("/profile");
+        }
+      })
+    }
+
+  };
 
   const handleModalChange = (modalName) => {
     setActiveModal(modalName);
@@ -87,21 +103,29 @@ const App = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const handleSubmitItem = (items) => {
+  const handleSubmitItem = (items, token) => {
     return handleSubmit(() => {
-      return api.addItem(items).then((newItems) => {
+      return api.addItem(items, token).then((newItems) => {
         setClothingItems([newItems, ...clothingItems]);
       });
     });
   };
 
-  const handleDeleteItem = (id) => {
+  const handleDeleteItem = (id, token) => {
     return handleSubmit(() => {
-      return api.removeItem(id).then(() => {
+      return api.removeItem(id, token).then(() => {
         setClothingItems((items) => items.filter((i) => i._id !== id));
       });
     });
   };
+
+  const handleSubmitInfo = (info, token) => {
+    return handleSubmit(() => {
+      return api.updateUser(info, token).then(({ name, avatar }) => {
+        setUser({ name, avatar });
+      })
+    })
+  }
 
   const handleRegistration = (request) => {
     setIsLoading(true);
@@ -111,8 +135,54 @@ const App = () => {
       .finally(() => setIsLoading(false));
   }
 
+  const handleLogin = (request, user) => {
+    setIsLoading(true);
+    request()
+      .then(() => {
+        setUser(user);
+        handleClose();
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleLogout = (request, user) => {
+    setIsLoading(true);
+    request()
+      .then(() => {
+        localStorage.removeItem("jwt");
+        setToken(token);
+        setUser(user);
+        handleClose();
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleCardLike = ({ id, isLiked, token }) => {
+    !isLiked
+      ?
+        api
+          .addCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err))
+      :
+        api
+          .removeCardLike(id, token) 
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err));
+  };
+
   return (
-    <CurrentUserContext.Provider value={{currentUser, isLoggedIn}}>
+    <CurrentUserContext.Provider value={{ isLoggedIn, token, user, clothingItems, handleRegistration, handleLogin, handleLogout }}>
     <div className="app">
       <CurrentTemperatureUnitContext.Provider
         value={{
@@ -128,6 +198,9 @@ const App = () => {
             handleItemClick,
             handleModalChange,
             handleSubmitItem,
+            handleSubmitInfo,
+            handleRegistration,
+            handleLogin,
             modalOptions,
             isLoading,
             setIsLoading,
@@ -143,17 +216,20 @@ const App = () => {
             </Route>
             <Route path="/profile">
               {isLoggedIn ? (clothingItems.length !== 0 && weatherData.temperature) && (
-                <Profile clothingItems={clothingItems} />
+                <Profile />
               ) : <Redirect to={"/signin"} />}
             </Route>
           </Switch>
           <Footer />
 
           {activeModal === "garment" && (
-            <AddItemModal handleSubmitItem={handleSubmitItem} />
+            <AddItemModal />
           )}
           {activeModal === "preview" && (
             <ItemModal selectedItem={selectedItem} />
+          )}
+          {activeModal === "update" && (
+            <EditProfileModal />
           )}
           {activeModal === "confirm" && (
             <ConfirmationModal
@@ -162,7 +238,7 @@ const App = () => {
             />
           )}
           {activeModal === "signup" && (
-            <RegisterModal handleRegistration={handleRegistration} />
+            <RegisterModal />
           )}
           {activeModal === "signin" && (
             <LoginModal />

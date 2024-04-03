@@ -1,5 +1,5 @@
-import "./RegisterModal.css";
 import { useContext, useEffect } from "react";
+import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm";
 import { useForm } from "../../../hooks/useForm";
 import ModalContext from "../../../contexts/ModalContext";
@@ -16,9 +16,12 @@ const RegisterModal = () => {
     const { values, handleChange, setValues } = useForm(initialValues);
 
     const { email, password, name, avatar } = values;
+    useEffect(() => {
+      setValues(initialValues);
+    }, [setValues]);
 
     return (
-        <ModalWithForm>
+        <ModalWithForm handleSubmit={handleRegistration}>
             <label className="form__label" htmlFor={"garment-name"}>
                 Email
                 <input
@@ -73,7 +76,7 @@ const RegisterModal = () => {
                     className="form__input"
                     id="user-avatar"
                     name="avatar"
-                    placeholder="Avatar"
+                    placeholder="Avatar URL"
                     minLength="2"
                     maxLength="200"
                     type="url"

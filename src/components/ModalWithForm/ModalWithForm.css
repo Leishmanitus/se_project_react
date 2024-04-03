@@ -15,7 +15,6 @@
 .modal__container {
   z-index: 1;
   width: 496px;
-  height: 436px;
   position: relative;
   display: flex;
   flex-flow: column nowrap;

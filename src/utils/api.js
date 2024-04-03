@@ -26,7 +26,7 @@ const addItem = ({ name, weather, imageUrl }, token) => {
 };
 
 const removeItem = (_id, token) => {
-  return request(`${url}/items/${_id}`, {
+  return request(`${url}/items/:${_id}`, {
     method: "DELETE",
     headers: {
       'Content-Type': 'application/json',
@@ -35,10 +35,46 @@ const removeItem = (_id, token) => {
   });
 };
 
+const likeItem = (_id, token) => {
+  return request(`${url}/items/:${_id}/likes`, {
+    method: "PUT",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ _id }),
+  });
+};
+
+const dislikeItem = (_id, token) => {
+  return request(`${url}/items/:${_id}/likes`, {
+    method: "DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ _id }),
+  });
+};
+
+const updateUser = ({name, avatar}, token) => {
+  return request(`${url}/users/me`, {
+    method: "PATCH",
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ name, avatar }),
+  });
+};
+
 const api = {
   getItemsList,
   addItem,
   removeItem,
+  likeItem,
+  dislikeItem,
+  updateUser,
 };
 
 export default api;

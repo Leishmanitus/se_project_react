@@ -2,9 +2,11 @@ import "./ClothesSection.css";
 import ItemCard from "../../Main/ItemCard/ItemCard";
 import { useContext } from "react";
 import ModalContext from "../../../contexts/ModalContext";
+import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
-const ClothesSection = ({ clothingItems }) => {
+const ClothesSection = () => {
   const { handleModalChange } = useContext(ModalContext);
+  const { user, clothingItems } = useContext(CurrentUserContext);
   return (
     <>
       <div className="clothes__message-group">
@@ -18,9 +20,7 @@ const ClothesSection = ({ clothingItems }) => {
         </button>
       </div>
       <div className="clothes__items">
-        {clothingItems.map((card) => {
-          <ItemCard key={card._id} card={card} />
-        })}
+        {Array.prototype.filter.call(clothingItems, (card) => user._id === card.owner).map((card) => (<ItemCard key={card._id} card={card} />))}
       </div>
     </>
   );

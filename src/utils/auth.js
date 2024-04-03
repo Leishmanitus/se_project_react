@@ -1,4 +1,4 @@
-import { url, headers } from "./constants";
+import { url } from "./constants";
 import { request } from "./api";
 
 const signup = ({ name, avatar, email, password }) => {
@@ -25,7 +25,10 @@ const getContent = (token) => {
       'Authorization': `Bearer ${token}`,
     }
     })
-      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        res.json();
+      })
       .then(data => data)
 }
 
