@@ -6,26 +6,26 @@ import ModalContext from "../../../contexts/ModalContext";
 
 const RegisterModal = () => {
     const initialValues = {
-        email: "",
-        password: "",
         name: "",
         avatar: "",
+        email: "",
+        password: "",
     };
 
     const { handleRegistration } = useContext(ModalContext);
     const { values, handleChange, setValues } = useForm(initialValues);
 
-    const { email, password, name, avatar } = values;
+    const { name, avatar, email, password } = values;
     useEffect(() => {
       setValues(initialValues);
     }, [setValues]);
 
-    const handleUserRegistration = (values) => {
+    const handleUserRegistration = () => {
         handleRegistration(values);
     };
 
     return (
-        <ModalWithForm handleSubmit={handleRegistration}>
+        <ModalWithForm handleSubmit={handleUserRegistration}>
             <label className="form__label" htmlFor={"garment-name"}>
                 Email
                 <input

@@ -28,7 +28,6 @@ const App = () => {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState();
-  const [token, setToken] = useState();
   const [user, setUser] = useState({ name: "", avatar: "" });
 
   const handleCheckToken = () => {
@@ -37,7 +36,6 @@ const App = () => {
       .then((data) => {
         if (data.jwt) {
           setIsLoggedIn(true);
-          setToken(data.jwt);
           setUser({ name: data.name, avatar: data.avatar });
         }
         return data;
@@ -94,32 +92,30 @@ const App = () => {
     })
   }
 
+  const setUserState = (data, log) => {
+    setUser({ name: data.name, avatar: data.avatar });
+    setIsLoggedIn(log);
+  };
+
   const handleRegistration = (values) => {
-    setIsLoading(true);
-    auth.signup(values)
-      .then(handleClose)
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+    return handleSubmit(() => {
+      return auth.signup(values).then((data) => {
+        setUserState(data, true);
+      });
+    });
   }
 
-  const handleLogin = () => {
-    setIsLoading(true);
-    auth.signin()
-      .then((data) => {
-        setUser(data.user);
-        setToken(data.jwt);
-        setIsLoggedIn(true);
-        handleClose();
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+  const handleLogin = (values) => {
+    return handleSubmit(() => {
+      return auth.signin(values).then((data) => {
+        setUserState(data, true);
+      });
+    });
   };
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
-    setToken("");
-    setUser({ name: "", avatar: "" });
-    setIsLoggedIn(false);
+    setUserState({ name: "", avatar: "" }, false);
   };
 
   const handleCardLike = ({ id, isLiked, token }) => {
@@ -178,7 +174,7 @@ const App = () => {
   }, [])
 
   return (
-    <CurrentUserContext.Provider value={{ isLoggedIn, token, user, clothingItems }}>
+    <CurrentUserContext.Provider value={{ isLoggedIn, user, clothingItems }}>
     <div className="app">
       <CurrentTemperatureUnitContext.Provider
         value={{

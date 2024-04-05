@@ -18,8 +18,12 @@ const LoginModal = () => {
       setValues(initialValues);
     }, [setValues]);
 
+    const handleUserLogin = () => {
+        handleLogin(values);
+    };
+
     return (
-        <ModalWithForm handleLogin={handleLogin}>
+        <ModalWithForm handleLogin={handleUserLogin}>
             <label className="form__label" htmlFor={"garment-name"}>
                 Email
                 <input

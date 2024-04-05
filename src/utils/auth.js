@@ -8,7 +8,7 @@ const signup = ({ name, avatar, email, password }) => {
     body: JSON.stringify({ name, avatar, email, password }),
   })
     .then((res) => res.json())
-    .then((res) => res)
+    .then((data) => data)
     .catch((err) => console.log(err));
 };
   
@@ -20,15 +20,15 @@ const signin = ({ email, password }) => {
   })
     .then((res => res.json()))
     .then((data) => {
-      if (data.user) {
-        localStorage.setItem('jwt', data.jwt);
+      if (data.token) {
+        localStorage.setItem('jwt', data.token);
         return data;
       }
     })
 };
 
 const getContent = (token) => {
-  return fetch(`${url}/users/me`, {
+  return request(`${url}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
