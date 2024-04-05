@@ -45,7 +45,7 @@ function Main({ clothingItems }) {
         <div className="main__cards">
           {Array.prototype.filter
             .call(clothingItems, (card) => card.weather === weatherCondition)
-            .map((filteredCard) => (<ItemCard key={filteredCard._id} card={filteredCard} />))}
+            .map((filteredCard) => <ItemCard key={filteredCard._id} card={filteredCard} />)}
         </div>
       </section>
     </main>

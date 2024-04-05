@@ -1,25 +1,39 @@
 import "./SideBar.css";
 import avatarDefault from "../../../images/avatar.svg";
+import { useContext } from "react";
+import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
 const SideBar = () => {
-  const userName = "Tyler Leishman";
-  const avatar = "";
+  const { user } = useContext(CurrentUserContext);
+
   return (
     <div className="sidebar__profile-group">
       <div className="sidebar__avatar-container">
-        {avatar ? (
-          <img
-            className="sidebar__avatar"
-            src={avatar || avatarDefault}
-            alt="Avatar"
-          />
-        ) : (
-          <span className="sidebar__avatar-letter">
-            {userName.toUpperCase().charAt(0) || ""}
-          </span>
-        )}
+        {user.avatar 
+          ?
+            (
+              <img
+                className="sidebar__avatar"
+                src={user.avatar || avatarDefault}
+                alt="Avatar"
+              />
+            ) 
+          : 
+            (
+              <span className="sidebar__avatar-letter">
+                {user.name.toUpperCase().charAt(0) || "?"}
+              </span>
+            )
+        }
       </div>
-      <p className="sidebar__username">{userName}</p>
+      <p className="sidebar__username">
+        {user.name
+          ?
+            user.name
+          :
+            "Unknown"
+        }
+      </p>
     </div>
   );
 };

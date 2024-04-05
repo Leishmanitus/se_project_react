@@ -20,6 +20,10 @@ const RegisterModal = () => {
       setValues(initialValues);
     }, [setValues]);
 
+    const handleUserRegistration = (values) => {
+        handleRegistration(values);
+    };
+
     return (
         <ModalWithForm handleSubmit={handleRegistration}>
             <label className="form__label" htmlFor={"garment-name"}>

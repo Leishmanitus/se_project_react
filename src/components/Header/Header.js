@@ -28,31 +28,54 @@ function Header() {
       </div>
       <div className="header__group">
         <ToggleSwitch />
-        <button
-          className="header__text header__text_type_button"
-          type="text"
-          onClick={() => handleModalChange("garment")}
-        >
-          + Add Clothes
-        </button>
-        <div className="header__group header__group_type_profile">
-          <p className="header__text">{user.name}</p>
-          <NavLink className="header__link" to="/profile">
-            <div className="header__avatar-container">
-              {user.avatar ? (
-                <img
-                  className="header__avatar"
-                  src={user.avatar || avatarDefault}
-                  alt="Avatar"
-                />
-              ) : (
-                <span className="header__avatar-letter">
-                  {user.name.toUpperCase().charAt(0) || ""}
-                </span>
-              )}
-            </div>
-          </NavLink>
-        </div>
+        {
+        isLoggedIn
+          ?
+            (<>
+              <button
+                className="header__text header__text_type_button"
+                type="text"
+                onClick={() => handleModalChange("garment")}
+              >
+                + Add Clothes
+              </button>
+              <div className="header__group header__group_type_profile">
+                <p className="header__text">{user.name}</p>
+                <NavLink className="header__link" to="/profile">
+                  <div className="header__avatar-container">
+                    {user.avatar ? (
+                      <img
+                        className="header__avatar"
+                        src={user.avatar || avatarDefault}
+                        alt="Avatar"
+                      />
+                    ) : (
+                      <span className="header__avatar-letter">
+                        {user.name.toUpperCase().charAt(0) || "?"}
+                      </span>
+                    )}
+                  </div>
+                </NavLink>
+              </div>
+            </>)
+          :
+            (<>
+              <button
+                className="header__text header__text_type_button"
+                type="text"
+                onClick={() => handleModalChange("signup")}
+              >
+                Sign Up
+              </button>
+              <button
+                className="header__text header__text_type_button header__text_type_login"
+                type="text"
+                onClick={() => handleModalChange("signin")}
+              >
+                Log In
+              </button>
+            </>)
+        }  
       </div>
     </header>
   );

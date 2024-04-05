@@ -31,51 +31,18 @@ const App = () => {
   const [token, setToken] = useState();
   const [user, setUser] = useState({ name: "", avatar: "" });
 
-  useEffect(() => {
-    if (prefferedLocation.latitude && prefferedLocation.longitude) {
-      getWeatherForecast(prefferedLocation, secretKey)
-        .then((data) => {
-          setWeatherData(filterWeatherData(data));
-        })
-        .catch(console.error);
-    }
-  }, []);
-
-  useEffect(() => {
-    api
-      .getItemsList()
-      .then((items) => setClothingItems(items))
-      .catch(console.error);
-  }, []);
-
-  useEffect(() => {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
-      auth
-        .getContent(jwt)
-        .then((data) => {
-          setToken(jwt);
-          handleLogin(jwt, data);
-        })
-        .catch(console.error);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [])
-
   const handleCheckToken = () => {
     const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      auth.getContent(jwt).then((res) => {
-        if (res) {
+    return auth.getContent(jwt)
+      .then((data) => {
+        if (data.jwt) {
           setIsLoggedIn(true);
-          setToken(jwt);
-          setUser({ name: res.name, avatar: res.avatar });
-          history.pushState("/profile");
+          setToken(data.jwt);
+          setUser({ name: data.name, avatar: data.avatar });
         }
+        return data;
       })
-    }
-
+      .catch(console.error);
   };
 
   const handleModalChange = (modalName) => {
@@ -127,36 +94,32 @@ const App = () => {
     })
   }
 
-  const handleRegistration = (request) => {
+  const handleRegistration = (values) => {
     setIsLoading(true);
-    request()
+    auth.signup(values)
       .then(handleClose)
       .catch(console.error)
       .finally(() => setIsLoading(false));
   }
 
-  const handleLogin = (request, user) => {
+  const handleLogin = () => {
     setIsLoading(true);
-    request()
-      .then(() => {
-        setUser(user);
+    auth.signin()
+      .then((data) => {
+        setUser(data.user);
+        setToken(data.jwt);
+        setIsLoggedIn(true);
         handleClose();
       })
       .catch(console.error)
       .finally(() => setIsLoading(false));
   };
 
-  const handleLogout = (request, user) => {
-    setIsLoading(true);
-    request()
-      .then(() => {
-        localStorage.removeItem("jwt");
-        setToken(token);
-        setUser(user);
-        handleClose();
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setToken("");
+    setUser({ name: "", avatar: "" });
+    setIsLoggedIn(false);
   };
 
   const handleCardLike = ({ id, isLiked, token }) => {
@@ -181,8 +144,41 @@ const App = () => {
           .catch((err) => console.log(err));
   };
 
+  const redirectPage = (route, modal) => {
+    setActiveModal(modal);
+    return (route);
+  };
+
+  useEffect(() => {
+    if (prefferedLocation.latitude && prefferedLocation.longitude) {
+      getWeatherForecast(prefferedLocation, secretKey)
+        .then((data) => {
+          setWeatherData(filterWeatherData(data));
+        })
+        .catch(console.error);
+    }
+  }, []);
+
+  useEffect(() => {
+    api
+      .getItemsList()
+      .then((items) => setClothingItems(items))
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      handleCheckToken()
+        .then((data) => {
+          if (data)
+          handleLogin(auth.signin);
+        })
+        .catch(console.error);
+    }
+  }, [])
+
   return (
-    <CurrentUserContext.Provider value={{ isLoggedIn, token, user, clothingItems, handleRegistration, handleLogin, handleLogout }}>
+    <CurrentUserContext.Provider value={{ isLoggedIn, token, user, clothingItems }}>
     <div className="app">
       <CurrentTemperatureUnitContext.Provider
         value={{
@@ -201,6 +197,8 @@ const App = () => {
             handleSubmitInfo,
             handleRegistration,
             handleLogin,
+            handleDeleteItem,
+            selectedItem,
             modalOptions,
             isLoading,
             setIsLoading,
@@ -215,9 +213,14 @@ const App = () => {
                 )}
             </Route>
             <Route path="/profile">
-              {isLoggedIn ? (clothingItems.length !== 0 && weatherData.temperature) && (
-                <Profile />
-              ) : <Redirect to={"/signin"} />}
+              {isLoggedIn
+                ?
+                  (clothingItems.length !== 0 && weatherData.temperature) && (
+                    <Profile />
+                  )
+                :
+                  <Redirect to={"/signin"} />
+              }
             </Route>
           </Switch>
           <Footer />
@@ -226,16 +229,13 @@ const App = () => {
             <AddItemModal />
           )}
           {activeModal === "preview" && (
-            <ItemModal selectedItem={selectedItem} />
+            <ItemModal />
           )}
           {activeModal === "update" && (
             <EditProfileModal />
           )}
           {activeModal === "confirm" && (
-            <ConfirmationModal
-              itemId={selectedItem._id}
-              handleDeleteItem={handleDeleteItem}
-            />
+            <ConfirmationModal />
           )}
           {activeModal === "signup" && (
             <RegisterModal />

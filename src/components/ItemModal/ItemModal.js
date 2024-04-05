@@ -8,6 +8,7 @@ const ItemModal = ({ selectedItem }) => {
   const { handleClose, handleItemClick, modalOptions } =
     useContext(ModalContext);
   const { user } = useContext(CurrentUserContext);
+  
   const { title, deleteButton } = modalOptions.previewOptions;
   const isOwn = selectedItem.owner === user._id;
   const modalDeleteButtonClassName = (

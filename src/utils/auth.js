@@ -7,6 +7,9 @@ const signup = ({ name, avatar, email, password }) => {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ name, avatar, email, password }),
   })
+    .then((res) => res.json())
+    .then((res) => res)
+    .catch((err) => console.log(err));
 };
   
 const signin = ({ email, password }) => {
@@ -15,6 +18,13 @@ const signin = ({ email, password }) => {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ email, password }),
   })
+    .then((res => res.json()))
+    .then((data) => {
+      if (data.user) {
+        localStorage.setItem('jwt', data.jwt);
+        return data;
+      }
+    })
 };
 
 const getContent = (token) => {
@@ -25,10 +35,7 @@ const getContent = (token) => {
       'Authorization': `Bearer ${token}`,
     }
     })
-      .then(res => {
-        console.log(res);
-        res.json();
-      })
+      .then(res => res.json())
       .then(data => data)
 }
 

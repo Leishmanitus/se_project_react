@@ -19,7 +19,7 @@ const EditProfileModal = () => {
     }, [setValues]);
 
     return (
-        <ModalWithForm>
+        <ModalWithForm handleSubmitInfo={handleSubmitInfo}>
             <label className="form__label" htmlFor={"garment-name"}>
                 Name
                 <input
