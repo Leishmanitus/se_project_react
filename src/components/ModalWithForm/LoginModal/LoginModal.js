@@ -23,7 +23,7 @@ const LoginModal = () => {
     };
 
     return (
-        <ModalWithForm handleLogin={handleUserLogin}>
+        <ModalWithForm handleSubmit={handleUserLogin}>
             <label className="form__label" htmlFor={"garment-name"}>
                 Email
                 <input

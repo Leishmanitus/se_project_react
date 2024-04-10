@@ -11,6 +11,7 @@ export const request = (url, options) => {
 const getItemsList = () => {
   return request(`${url}/items`, {
     method: "GET",
+    headers: {"Content-Type": "applicaiton/json",},
   });
 };
 

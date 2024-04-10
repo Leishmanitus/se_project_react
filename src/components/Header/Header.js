@@ -12,9 +12,11 @@ import CurrentUserContext from "../../contexts/CurrentUserContext";
 function Header() {
   const { weatherData } = useContext(CurrentTemperatureUnitContext);
   const { handleModalChange } = useContext(ModalContext);
-  const { isLoggedIn, token, user } = useContext(CurrentUserContext);
+  const { isLoggedIn, user } = useContext(CurrentUserContext);
 
   const currentDate = getDate();
+
+  console.log(user);
 
   return (
     <header className="header">
@@ -51,7 +53,7 @@ function Header() {
                       />
                     ) : (
                       <span className="header__avatar-letter">
-                        {user.name.toUpperCase().charAt(0) || "?"}
+                        {user.name.charAt(0).toUpperCase() || "?"}
                       </span>
                     )}
                   </div>

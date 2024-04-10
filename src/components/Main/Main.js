@@ -3,11 +3,11 @@ import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function Main({ clothingItems }) {
-  const { currentTemperatureUnit, weatherData } = useContext(
-    CurrentTemperatureUnitContext
-  );
+function Main() {
+  const { clothingItems } = useContext(CurrentUserContext);
+  const { currentTemperatureUnit, weatherData } = useContext(CurrentTemperatureUnitContext);
   const temperature = weatherData.temperature[currentTemperatureUnit];
 
   const handleWeatherCondition = (temperature) => {
@@ -43,9 +43,13 @@ function Main({ clothingItems }) {
           wear:
         </p>
         <div className="main__cards">
-          {Array.prototype.filter
-            .call(clothingItems, (card) => card.weather === weatherCondition)
-            .map((filteredCard) => <ItemCard key={filteredCard._id} card={filteredCard} />)}
+          {clothingItems
+            .filter((card) => card.weather === weatherCondition)
+            .map((filteredCard) => {
+              console.log(filteredCard);
+              return <ItemCard key={filteredCard._id} card={filteredCard} />
+            })
+          }
         </div>
       </section>
     </main>

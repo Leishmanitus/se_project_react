@@ -7,9 +7,6 @@ const signup = ({ name, avatar, email, password }) => {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ name, avatar, email, password }),
   })
-    .then((res) => res.json())
-    .then((data) => data)
-    .catch((err) => console.log(err));
 };
   
 const signin = ({ email, password }) => {
@@ -18,13 +15,6 @@ const signin = ({ email, password }) => {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ email, password }),
   })
-    .then((res => res.json()))
-    .then((data) => {
-      if (data.token) {
-        localStorage.setItem('jwt', data.token);
-        return data;
-      }
-    })
 };
 
 const getContent = (token) => {
@@ -35,8 +25,6 @@ const getContent = (token) => {
       'Authorization': `Bearer ${token}`,
     }
     })
-      .then(res => res.json())
-      .then(data => data)
 }
 
 const auth = {

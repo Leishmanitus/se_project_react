@@ -28,20 +28,9 @@ const App = () => {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState();
-  const [user, setUser] = useState({ name: "", avatar: "" });
+  const [user, setUser] = useState({ name: "", avatar: "", id: "" });
 
-  const handleCheckToken = () => {
-    const jwt = localStorage.getItem("jwt");
-    return auth.getContent(jwt)
-      .then((data) => {
-        if (data.jwt) {
-          setIsLoggedIn(true);
-          setUser({ name: data.name, avatar: data.avatar });
-        }
-        return data;
-      })
-      .catch(console.error);
-  };
+
 
   const handleModalChange = (modalName) => {
     setActiveModal(modalName);
@@ -60,16 +49,19 @@ const App = () => {
     setActiveModal(modal);
   };
 
-  const handleSubmit = (request) => {
+  const handleRequest = (request) => {
     setIsLoading(true);
-    request()
-      .then(handleClose)
+    return request()
+      .then((res) => {
+        console.log(res);
+        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+      })
       .catch(console.error)
       .finally(() => setIsLoading(false));
   };
 
   const handleSubmitItem = (items, token) => {
-    return handleSubmit(() => {
+    return handleRequest(() => {
       return api.addItem(items, token).then((newItems) => {
         setClothingItems([newItems, ...clothingItems]);
       });
@@ -77,15 +69,15 @@ const App = () => {
   };
 
   const handleDeleteItem = (id, token) => {
-    return handleSubmit(() => {
-      return api.removeItem(id, token).then(() => {
-        setClothingItems((items) => items.filter((i) => i._id !== id));
+    return handleRequest(() => {
+      return api.removeItem(id, token).then((items) => {
+        setClothingItems(() => items.filter((i) => i._id !== id));
       });
     });
   };
 
   const handleSubmitInfo = (info, token) => {
-    return handleSubmit(() => {
+    return handleRequest(() => {
       return api.updateUser(info, token).then(({ name, avatar }) => {
         setUser({ name, avatar });
       })
@@ -97,19 +89,37 @@ const App = () => {
     setIsLoggedIn(log);
   };
 
+  const handleCheckToken = () => {
+    const jwt = localStorage.getItem("jwt");
+    return auth.getContent(jwt)
+      .then((data) => {
+        if (data.jwt) {
+          setUserState(data, true);
+        }
+      })
+      .catch(console.error);
+  };
+
   const handleRegistration = (values) => {
-    return handleSubmit(() => {
-      return auth.signup(values).then((data) => {
-        setUserState(data, true);
-      });
+    return handleRequest(() => {
+      return auth.signup(values)
+        .then((data) => {
+          setUserState(data, true);
+        });
     });
   }
 
   const handleLogin = (values) => {
-    return handleSubmit(() => {
-      return auth.signin(values).then((data) => {
-        setUserState(data, true);
-      });
+    return handleRequest(() => {
+      return auth.signin(values)
+        .then((data) => {
+          console.log(data);
+          const { name, avatar, token, _id } = data;
+          if (token) {
+            localStorage.setItem('jwt', token);
+            setUserState({ name: name, avatar: avatar, id: _id }, true);
+          }
+        });
     });
   };
 
@@ -121,28 +131,28 @@ const App = () => {
   const handleCardLike = ({ id, isLiked, token }) => {
     !isLiked
       ?
-        api
-          .addCardLike(id, token)
-          .then((updatedCard) => {
-            setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
-            );
-          })
-          .catch((err) => console.log(err))
+        handleRequest(() => {
+          api.addCardLike(id, token)
+            .then((updatedCard) => {
+              setClothingItems((cards) =>
+                cards.map((item) => (item._id === id ? updatedCard : item))
+              );
+            })
+        })
+        .catch(console.log)
       :
-        api
-          .removeCardLike(id, token) 
-          .then((updatedCard) => {
-            setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
-            );
-          })
-          .catch((err) => console.log(err));
+        handleRequest(() => {
+          api.removeCardLike(id, token) 
+            .then((updatedCard) => {
+              setClothingItems((cards) =>
+                cards.map((item) => (item._id === id ? updatedCard : item))
+              );
+            })
+        }).catch(console.log);
   };
 
-  const redirectPage = (route, modal) => {
+  const redirectPage = ( modal) => {
     setActiveModal(modal);
-    return (route);
   };
 
   useEffect(() => {
@@ -158,7 +168,9 @@ const App = () => {
   useEffect(() => {
     api
       .getItemsList()
-      .then((items) => setClothingItems(items))
+      .then((items) => {
+        setClothingItems(items.data);
+      })
       .catch(console.error);
   }, []);
 
@@ -167,7 +179,7 @@ const App = () => {
       handleCheckToken()
         .then((data) => {
           if (data)
-          handleLogin(auth.signin);
+          handleLogin({ email: data.email, password: data.password });
         })
         .catch(console.error);
     }
@@ -175,73 +187,74 @@ const App = () => {
 
   return (
     <CurrentUserContext.Provider value={{ isLoggedIn, user, clothingItems }}>
-    <div className="app">
-      <CurrentTemperatureUnitContext.Provider
-        value={{
-          currentTemperatureUnit,
-          handleToggleSwitchChange,
-          weatherData,
-        }}
-      >
-        <ModalContext.Provider
+      <div className="app">
+        <CurrentTemperatureUnitContext.Provider
           value={{
-            handleClose,
-            activeModal,
-            handleItemClick,
-            handleModalChange,
-            handleSubmitItem,
-            handleSubmitInfo,
-            handleRegistration,
-            handleLogin,
-            handleDeleteItem,
-            selectedItem,
-            modalOptions,
-            isLoading,
-            setIsLoading,
+            currentTemperatureUnit,
+            handleToggleSwitchChange,
+            weatherData,
           }}
         >
-          <Header />
-          <Switch>
-            <Route exact path="/">
-              {weatherData.temperature &&
-                (weatherData.temperature.F || weatherData.temperature.C) && (
-                  <Main clothingItems={clothingItems} />
-                )}
-            </Route>
-            <Route path="/profile">
-              {isLoggedIn
-                ?
-                  (clothingItems.length !== 0 && weatherData.temperature) && (
-                    <Profile />
-                  )
-                :
-                  <Redirect to={"/signin"} />
-              }
-            </Route>
-          </Switch>
-          <Footer />
+          <ModalContext.Provider
+            value={{
+              handleClose,
+              activeModal,
+              handleItemClick,
+              handleModalChange,
+              handleSubmitItem,
+              handleDeleteItem,
+              handleSubmitInfo,
+              handleRegistration,
+              handleLogin,
+              handleLogout,
+              selectedItem,
+              modalOptions,
+              isLoading,
+              setIsLoading,
+            }}
+          >
+            <Header />
+            <Switch>
+              <Route exact path="/">
+                {weatherData.temperature &&
+                  (weatherData.temperature.F || weatherData.temperature.C) && (
+                    <Main />
+                  )}
+              </Route>
+              <Route path="/profile">
+                {isLoggedIn
+                  ?
+                    (clothingItems.length !== 0 && weatherData.temperature) && (
+                      <Profile />
+                    )
+                  :
+                    <Redirect to={"/signin"} />
+                }
+              </Route>
+            </Switch>
+            <Footer />
 
-          {activeModal === "garment" && (
-            <AddItemModal />
-          )}
-          {activeModal === "preview" && (
-            <ItemModal />
-          )}
-          {activeModal === "update" && (
-            <EditProfileModal />
-          )}
-          {activeModal === "confirm" && (
-            <ConfirmationModal />
-          )}
-          {activeModal === "signup" && (
-            <RegisterModal />
-          )}
-          {activeModal === "signin" && (
-            <LoginModal />
-          )}
-        </ModalContext.Provider>
-      </CurrentTemperatureUnitContext.Provider>
-    </div>
+            {activeModal === "garment" && (
+              <AddItemModal />
+            )}
+            {activeModal === "preview" && (
+              <ItemModal />
+            )}
+            {activeModal === "update" && (
+              <EditProfileModal />
+            )}
+            {activeModal === "confirm" && (
+              <ConfirmationModal />
+            )}
+            {activeModal === "signup" && (
+              <RegisterModal />
+            )}
+            {activeModal === "signin" && (
+              <LoginModal />
+            )}
+          </ModalContext.Provider>
+        </CurrentTemperatureUnitContext.Provider>
+      </div>
     </CurrentUserContext.Provider>
   );
 };
