@@ -52,10 +52,7 @@ const App = () => {
   const handleRequest = (request) => {
     setIsLoading(true);
     return request()
-      .then((res) => {
-        console.log(res);
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
+      .then(() => handleClose())
       .catch(console.error)
       .finally(() => setIsLoading(false));
   };
@@ -85,19 +82,26 @@ const App = () => {
   }
 
   const setUserState = (data, log) => {
-    setUser({ name: data.name, avatar: data.avatar });
+    setUser({ name: data.name, avatar: data.avatar, id: data._id, token: data.token });
     setIsLoggedIn(log);
   };
 
   const handleCheckToken = () => {
     const jwt = localStorage.getItem("jwt");
-    return auth.getContent(jwt)
-      .then((data) => {
-        if (data.jwt) {
-          setUserState(data, true);
-        }
-      })
-      .catch(console.error);
+    if (jwt) {
+      return handleRequest(() => {
+        return auth.getContent(jwt)
+          .then((user) => {
+            if (user.token) {
+              setUserState(user, true);
+            }
+
+            return user;
+          })
+      });
+    }
+
+    return jwt;
   };
 
   const handleRegistration = (values) => {
@@ -112,13 +116,14 @@ const App = () => {
   const handleLogin = (values) => {
     return handleRequest(() => {
       return auth.signin(values)
-        .then((data) => {
-          console.log(data);
-          const { name, avatar, token, _id } = data;
-          if (token) {
-            localStorage.setItem('jwt', token);
-            setUserState({ name: name, avatar: avatar, id: _id }, true);
+        .then((user) => {
+          if (user.token) {
+            console.log(user);
+            localStorage.setItem('jwt', user.token);
+            setUserState({ name: user.name, avatar: user.avatar, id: user._id }, true);
           }
+          console.log(user);
+          return user;
         });
     });
   };
@@ -139,7 +144,7 @@ const App = () => {
               );
             })
         })
-        .catch(console.log)
+        .catch(console.error)
       :
         handleRequest(() => {
           api.removeCardLike(id, token) 
@@ -148,7 +153,7 @@ const App = () => {
                 cards.map((item) => (item._id === id ? updatedCard : item))
               );
             })
-        }).catch(console.log);
+        }).catch(console.error);
   };
 
   const redirectPage = ( modal) => {
@@ -175,15 +180,22 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem("jwt")) {
+    const jwt = localStorage.getItem("jwt");
+    console.log(jwt);
+    if (jwt) {
       handleCheckToken()
         .then((data) => {
-          if (data)
-          handleLogin({ email: data.email, password: data.password });
+          if (data) {
+            handleLogin({ email: data.email, password: data.password })
+          } else {
+            setIsLoggedIn(false);
+          };
         })
         .catch(console.error);
     }
   }, [])
+
+  console.log(user);
 
   return (
     <CurrentUserContext.Provider value={{ isLoggedIn, user, clothingItems }}>
@@ -222,14 +234,23 @@ const App = () => {
                   )}
               </Route>
               <Route path="/profile">
-                {isLoggedIn
-                  ?
-                    (clothingItems.length !== 0 && weatherData.temperature) && (
-                      <Profile />
+                {
+                  isLoggedIn
+                    ?
+                      (clothingItems.length !== 0 && weatherData.temperature) ? (
+                        <Profile />
+                      ) : (
+                        <Redirect to={"/"} />
+                    ) : (
+                      <Redirect to={"/"} />
                     )
-                  :
-                    <Redirect to={"/signin"} />
                 }
+              </Route>
+              <Route path="/signup">
+                <RegisterModal />
+              </Route>
+              <Route path="/signin">
+                <LoginModal />
               </Route>
             </Switch>
             <Footer />

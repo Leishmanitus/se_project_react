@@ -3,6 +3,7 @@ import "./EditProfileModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 import ModalContext from "../../contexts/ModalContext";
+import { modalOptions } from "../../utils/constants";
 
 const EditProfileModal = () => {
     const initialValues = {
@@ -10,7 +11,8 @@ const EditProfileModal = () => {
         avatar: "",
     };
 
-    const { handleSubmitInfo } = useContext(ModalContext);
+    const { editProfileTitle, editProfileButton, editProfileLoading } = modalOptions.editProfileOptions;
+    const { handleSubmitInfo, isLoading } = useContext(ModalContext);
     const { values, handleChange, setValues } = useForm(initialValues);
 
     const { name, avatar } = values;
@@ -20,7 +22,8 @@ const EditProfileModal = () => {
 
     return (
         <ModalWithForm handleSubmitInfo={handleSubmitInfo}>
-            <label className="form__label" htmlFor={"garment-name"}>
+            <h3 className="modal__title">{editProfileTitle}</h3>
+            <label className="form__label" htmlFor={"user-name"}>
                 Name
                 <input
                     className="form__input"
@@ -36,7 +39,7 @@ const EditProfileModal = () => {
                 />
             </label>
 
-            <label className="form__label" htmlFor={"garment-name"}>
+            <label className="form__label" htmlFor={"user-avatar"}>
                 Avatar URL
                 <input
                     className="form__input"
@@ -51,6 +54,9 @@ const EditProfileModal = () => {
                     required
                 />
             </label>
+            <button className="form__submit" type="submit">
+                {isLoading ? editProfileLoading : editProfileButton}
+            </button>
         </ModalWithForm>
     );
 };

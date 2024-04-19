@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "./Header.css";
 import { getDate } from "../../utils/utility";
 import wtwrLogo from "../../images/wtwr-logo.svg";
@@ -15,8 +15,6 @@ function Header() {
   const { isLoggedIn, user } = useContext(CurrentUserContext);
 
   const currentDate = getDate();
-
-  console.log(user);
 
   return (
     <header className="header">
@@ -53,7 +51,7 @@ function Header() {
                       />
                     ) : (
                       <span className="header__avatar-letter">
-                        {user.name.charAt(0).toUpperCase() || "?"}
+                        {String.call(user.name).charAt(0).toUpperCase() || "?"}
                       </span>
                     )}
                   </div>
@@ -77,7 +75,7 @@ function Header() {
                 Log In
               </button>
             </>)
-        }  
+        } 
       </div>
     </header>
   );

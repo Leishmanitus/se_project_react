@@ -1,22 +1,34 @@
 export const modalOptions = {
   formOptions: {
-    title: "New Garment",
-    name: "garment",
-    buttonText: "Add garment",
-    loadingText: "...Saving",
+    formTitle: "New Garment",
+    formName: "garment",
+    formButtonText: "Add garment",
+    formLoadingText: "...Saving",
   },
   previewOptions: {
-    title: "preview",
-    deleteButton: "Delete item",
+    previewTitle: "preview",
+    previewDeleteButton: "Delete item",
   },
   confirmationOptions: {
-    title: "confirm",
-    message:
+    confirmTitle: "confirm",
+    confirmMessage:
       "Are you sure you want to delete this item? This action is irreversible.",
     confirmText: "Yes, delete item",
-    cancelText: "Cancel",
-    loadingText: "...Deleting",
+    confirmCancelText: "Cancel",
+    confirmLoadingText: "...Deleting",
   },
+  loginOptions: {
+    loginTitle: "Log In",
+    loginButton: "Log In",
+    signupButton: "Sign Up",
+    loginLoadingText: "...Logging in",
+    signupLoadingText: "...Registering"
+  },
+  editProfileOptions: {
+    editProfileTitle: "Change profile data",
+    editProfileButton: "Save Changes",
+    editProfileLoading: "...Saving",
+  }
 };
 
 export const prefferedLocation = {

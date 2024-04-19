@@ -18,6 +18,7 @@ const signin = ({ email, password }) => {
 };
 
 const getContent = (token) => {
+  console.log(token);
   return request(`${url}/users/me`, {
     method: 'GET',
     headers: {

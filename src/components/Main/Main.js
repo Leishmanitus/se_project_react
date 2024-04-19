@@ -45,11 +45,7 @@ function Main() {
         <div className="main__cards">
           {clothingItems
             .filter((card) => card.weather === weatherCondition)
-            .map((filteredCard) => {
-              console.log(filteredCard);
-              return <ItemCard key={filteredCard._id} card={filteredCard} />
-            })
-          }
+            .map((filteredCard) => <ItemCard key={filteredCard._id} card={filteredCard} />)}
         </div>
       </section>
     </main>

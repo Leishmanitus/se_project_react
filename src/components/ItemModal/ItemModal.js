@@ -5,13 +5,13 @@ import { useEscape } from "../../hooks/useEscape";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const ItemModal = () => {
-  const { handleClose, handleModalChange, modalOptions } =
+  const { handleClose, handleModalChange, modalOptions, selectedItem } =
     useContext(ModalContext);
-  const { user, selectedItem } = useContext(CurrentUserContext);
+  const { user } = useContext(CurrentUserContext);
 
   const { name, imageUrl, weather, owner } = selectedItem;
   const { title, deleteButton } = modalOptions.previewOptions;
-  const isOwn = owner === user._id;
+  const isOwn = owner._id === user._id;
   const modalDeleteButtonClassName = (
     `modal__delete-button ${isOwn ? 'modal__delete-button_visible' : 'modal__delete-button_hidden'}`
   );
