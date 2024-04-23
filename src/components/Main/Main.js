@@ -43,9 +43,11 @@ function Main() {
           wear:
         </p>
         <div className="main__cards">
-          {clothingItems
-            .filter((card) => card.weather === weatherCondition)
-            .map((filteredCard) => <ItemCard key={filteredCard._id} card={filteredCard} />)}
+          {
+            clothingItems
+              .filter((card) => card.weather === weatherCondition)
+              .map((filteredCard, index) => <ItemCard key={index} card={filteredCard} />)
+          }
         </div>
       </section>
     </main>

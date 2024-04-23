@@ -6,7 +6,6 @@
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   margin: 0;
 }
 
@@ -36,4 +35,16 @@
   justify-content: center;
   align-items: center;
   background-color: #fff;
+}
+
+.card__toggle {
+  z-index: 1;
+  width: 18px;
+  height: 15px;
+  cursor: pointer;
+  margin: 0 0 0 10px;
+}
+
+.card__toggle_on {
+  color: #000;
 }

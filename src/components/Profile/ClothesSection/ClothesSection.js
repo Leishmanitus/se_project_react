@@ -20,7 +20,11 @@ const ClothesSection = () => {
         </button>
       </div>
       <div className="clothes__items">
-        {Array.prototype.filter.call(clothingItems, (card) => user._id === card.owner).map((card) => (<ItemCard key={card._id} card={card} />))}
+        {
+          clothingItems
+            .filter((card) => user._id === card.owner._id || card.owner.name === "default")
+            .map((filteredCard, index) => <ItemCard key={index} card={filteredCard} />)
+        }
       </div>
     </>
   );

@@ -7,7 +7,7 @@ import ModalContext from "../../../contexts/ModalContext";
 const SideBar = () => {
   const { user } = useContext(CurrentUserContext);
   const { handleSubmitInfo, handleLogout, handleModalChange } = useContext(ModalContext);
-
+  
   return (
     <>
       <div className="sidebar__profile-group">

@@ -11,7 +11,7 @@ const EditProfileModal = () => {
         avatar: "",
     };
 
-    const { editProfileTitle, editProfileButton, editProfileLoading } = modalOptions.editProfileOptions;
+    const { editProfileName, editProfileTitle, editProfileButton, editProfileLoading } = modalOptions.editProfileOptions;
     const { handleSubmitInfo, isLoading } = useContext(ModalContext);
     const { values, handleChange, setValues } = useForm(initialValues);
 
@@ -20,8 +20,12 @@ const EditProfileModal = () => {
       setValues(initialValues);
     }, [setValues]);
 
+    const handleSubmission = () => {
+        handleSubmitInfo(values);
+    };
+
     return (
-        <ModalWithForm handleSubmitInfo={handleSubmitInfo}>
+        <ModalWithForm handleSubmit={() => handleSubmission()} formName={editProfileName}>
             <h3 className="modal__title">{editProfileTitle}</h3>
             <label className="form__label" htmlFor={"user-name"}>
                 Name

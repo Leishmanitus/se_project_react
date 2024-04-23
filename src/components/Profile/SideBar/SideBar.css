@@ -24,7 +24,7 @@
   height: 56px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 56px;
-  margin: 0;
+  margin: 0 0 24px 0;
 }
 
 .sidebar__avatar {
@@ -38,4 +38,18 @@
   line-height: 105%;
   font-weight: 700;
   margin: 0;
+}
+
+.sidebar__settings-group {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.sidebar__button {
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0 8px 0;
 }

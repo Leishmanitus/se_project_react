@@ -27,8 +27,8 @@ const App = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState();
-  const [user, setUser] = useState({ name: "", avatar: "", id: "" });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({ name: "", avatar: "", id: "", token: "" });
 
 
 
@@ -81,24 +81,21 @@ const App = () => {
     })
   }
 
-  const setUserState = (data, log) => {
-    setUser({ name: data.name, avatar: data.avatar, id: data._id, token: data.token });
+  const setUserState = (data, token, log) => {
+    setUser({ name: data.name, avatar: data.avatar, id: data._id, token: toString(token) });
     setIsLoggedIn(log);
   };
 
   const handleCheckToken = () => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      return handleRequest(() => {
-        return auth.getContent(jwt)
-          .then((user) => {
-            if (user.token) {
-              setUserState(user, true);
-            }
-
-            return user;
-          })
-      });
+      return auth.getContent(jwt)
+        .then((user) => {
+          setUserState(user, jwt, true);
+          console.log(user);
+          
+          return user;
+        })
     }
 
     return jwt;
@@ -116,13 +113,12 @@ const App = () => {
   const handleLogin = (values) => {
     return handleRequest(() => {
       return auth.signin(values)
-        .then((user) => {
+        .then(({data: user}) => {
           if (user.token) {
-            console.log(user);
             localStorage.setItem('jwt', user.token);
-            setUserState({ name: user.name, avatar: user.avatar, id: user._id }, true);
+            setUserState({ name: user.name, avatar: user.avatar, id: user._id }, user.token, true);
           }
-          console.log(user);
+
           return user;
         });
     });
@@ -136,28 +132,21 @@ const App = () => {
   const handleCardLike = ({ id, isLiked, token }) => {
     !isLiked
       ?
-        handleRequest(() => {
-          api.addCardLike(id, token)
-            .then((updatedCard) => {
-              setClothingItems((cards) =>
-                cards.map((item) => (item._id === id ? updatedCard : item))
-              );
-            })
-        })
-        .catch(console.error)
+        api.likeItem(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch(console.error)
       :
-        handleRequest(() => {
-          api.removeCardLike(id, token) 
-            .then((updatedCard) => {
-              setClothingItems((cards) =>
-                cards.map((item) => (item._id === id ? updatedCard : item))
-              );
-            })
-        }).catch(console.error);
-  };
-
-  const redirectPage = ( modal) => {
-    setActiveModal(modal);
+        api.dislikeItem(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch(console.error);
   };
 
   useEffect(() => {
@@ -180,22 +169,15 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    console.log(jwt);
-    if (jwt) {
-      handleCheckToken()
-        .then((data) => {
-          if (data) {
-            handleLogin({ email: data.email, password: data.password })
-          } else {
-            setIsLoggedIn(false);
-          };
-        })
-        .catch(console.error);
-    }
+    handleCheckToken()
+      .catch(console.error);
   }, [])
 
-  console.log(user);
+  // useEffect(() => {
+    
+  // })
+
+
 
   return (
     <CurrentUserContext.Provider value={{ isLoggedIn, user, clothingItems }}>
@@ -212,6 +194,7 @@ const App = () => {
               handleClose,
               activeModal,
               handleItemClick,
+              handleCardLike,
               handleModalChange,
               handleSubmitItem,
               handleDeleteItem,

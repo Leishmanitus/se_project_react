@@ -13,7 +13,7 @@ const LoginModal = () => {
     };
 
     const { handleLogin, isLoading } = useContext(ModalContext);
-    const { loginTitle, loginButton, signupButton, loginLoadingText, signupLoadingText } = modalOptions.loginOptions;
+    const { loginFormName, loginTitle, loginButton, signupButton, loginLoadingText, signupLoadingText } = modalOptions.loginOptions;
     const { values, handleChange, setValues } = useForm(initialValues);
 
     const { email, password } = values;
@@ -26,7 +26,7 @@ const LoginModal = () => {
     };
 
   return (
-    <ModalWithForm handleSubmit={handleUserLogin}>
+    <ModalWithForm handleSubmit={handleUserLogin} formName={loginFormName}>
       <h3 className="modal__title">{loginTitle}</h3>
       <label className="form__label" htmlFor={"garment-name"}>
         Email
@@ -58,6 +58,7 @@ const LoginModal = () => {
           required
         />
       </label>
+      
       <div className="form__button-group">
         <button className="form__submit" type="submit">
           {isLoading ? loginLoadingText : loginButton}

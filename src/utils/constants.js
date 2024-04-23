@@ -1,16 +1,16 @@
 export const modalOptions = {
   formOptions: {
-    formTitle: "New Garment",
     formName: "garment",
+    formTitle: "New Garment",
     formButtonText: "Add garment",
     formLoadingText: "...Saving",
   },
   previewOptions: {
-    previewTitle: "preview",
+    previewFormName: "preview",
     previewDeleteButton: "Delete item",
   },
   confirmationOptions: {
-    confirmTitle: "confirm",
+    confirmFormName: "confirm",
     confirmMessage:
       "Are you sure you want to delete this item? This action is irreversible.",
     confirmText: "Yes, delete item",
@@ -18,13 +18,17 @@ export const modalOptions = {
     confirmLoadingText: "...Deleting",
   },
   loginOptions: {
+    loginFormName: "signin",
+    signupFormName: "signup",
     loginTitle: "Log In",
     loginButton: "Log In",
+    signupTitle: "Sign Up",
     signupButton: "Sign Up",
     loginLoadingText: "...Logging in",
     signupLoadingText: "...Registering"
   },
   editProfileOptions: {
+    editProfileFormName: "signin",
     editProfileTitle: "Change profile data",
     editProfileButton: "Save Changes",
     editProfileLoading: "...Saving",
