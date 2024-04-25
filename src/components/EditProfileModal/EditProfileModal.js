@@ -4,6 +4,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useForm } from "../../hooks/useForm";
 import ModalContext from "../../contexts/ModalContext";
 import { modalOptions } from "../../utils/constants";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const EditProfileModal = () => {
     const initialValues = {
@@ -11,8 +12,9 @@ const EditProfileModal = () => {
         avatar: "",
     };
 
-    const { editProfileName, editProfileTitle, editProfileButton, editProfileLoading } = modalOptions.editProfileOptions;
+    const { user } = useContext(CurrentUserContext);
     const { handleSubmitInfo, isLoading } = useContext(ModalContext);
+    const { editProfileName, editProfileTitle, editProfileButton, editProfileLoading } = modalOptions.editProfileOptions;
     const { values, handleChange, setValues } = useForm(initialValues);
 
     const { name, avatar } = values;
@@ -21,7 +23,8 @@ const EditProfileModal = () => {
     }, [setValues]);
 
     const handleSubmission = () => {
-        handleSubmitInfo(values);
+        values.id = user._id;
+        handleSubmitInfo(values, user.token);
     };
 
     return (

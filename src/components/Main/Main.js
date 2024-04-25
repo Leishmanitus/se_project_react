@@ -46,7 +46,9 @@ function Main() {
           {
             clothingItems
               .filter((card) => card.weather === weatherCondition)
-              .map((filteredCard, index) => <ItemCard key={index} card={filteredCard} />)
+              .map((filteredCard, index) => {
+                return <ItemCard key={index} card={filteredCard} />
+              })
           }
         </div>
       </section>

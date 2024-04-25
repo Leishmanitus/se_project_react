@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm";
 import { useForm } from "../../../hooks/useForm";
 import ModalContext from "../../../contexts/ModalContext";
+import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
 const AddItemModal = () => {
   const initialValues = {
@@ -10,6 +11,8 @@ const AddItemModal = () => {
     imageUrl: "",
     weather: "hot",
   };
+
+  const { user } = useContext(CurrentUserContext);
   const { handleSubmitItem, isLoading, modalOptions } = useContext(ModalContext);
   const { formTitle, formName, formButtonText, formLoadingText } = modalOptions.formOptions;
   const { values, handleChange, setValues } = useForm(initialValues);
@@ -21,7 +24,7 @@ const AddItemModal = () => {
   }, [setValues]);
 
   const handleSubmit = () => {
-    handleSubmitItem(values);
+    handleSubmitItem(values, user.token);
   };
 
   return (

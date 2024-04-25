@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./ItemCard.css";
-import heartImage from "../../../images/like-heart.svg"
+import heartImage from "../../../images/like-heart.svg";
+import filledHeartImage from "../../../images/filled-like-heart.svg";
 import ModalContext from "../../../contexts/ModalContext";
 import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
@@ -15,9 +16,15 @@ function ItemCard({ card }) {
   };
 
   const handleLikeButton = () => {
-    handleCardLike({ id: card._id, isLiked, token: user.token });
+    handleCardLike({ _id: card._id, isLiked, token: user.token });
     setIsLiked(!isLiked);
   };
+
+  useEffect(() => {
+    if (card.likes.length > 0) {
+      setIsLiked(true);
+    }
+  }, []);
 
   return (
     <div className="card" onClick={() => handleClick()}>
@@ -26,7 +33,7 @@ function ItemCard({ card }) {
         <h3 className="card__title">{card.name}</h3>
         <img className={`card__toggle ${
           isLiked ? "card__toggle_on" : ""}`}
-          src={heartImage} alt={"❤"}
+          src={isLiked ? filledHeartImage : heartImage} alt={"❤"}
           onClick={(event) => {
             event.stopPropagation();
             handleLikeButton();

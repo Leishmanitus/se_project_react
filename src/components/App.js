@@ -28,7 +28,7 @@ const App = () => {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({ name: "", avatar: "", id: "", token: "" });
+  const [user, setUser] = useState({ name: "", avatar: "", _id: "", token: "" });
 
 
 
@@ -45,6 +45,7 @@ const App = () => {
   };
 
   const handleItemClick = (item, modal) => {
+    console.log(item);
     setSelectedItem(item);
     setActiveModal(modal);
   };
@@ -74,6 +75,7 @@ const App = () => {
   };
 
   const handleSubmitInfo = (info, token) => {
+    console.log([info, token]);
     return handleRequest(() => {
       return api.updateUser(info, token).then(({ name, avatar }) => {
         setUser({ name, avatar });
@@ -81,8 +83,8 @@ const App = () => {
     })
   }
 
-  const setUserState = (data, token, log) => {
-    setUser({ name: data.name, avatar: data.avatar, id: data._id, token: toString(token) });
+  const setUserState = (user, token, log) => {
+    setUser({ name: user.name, avatar: user.avatar, _id: user._id, token: token });
     setIsLoggedIn(log);
   };
 
@@ -92,10 +94,10 @@ const App = () => {
       return auth.getContent(jwt)
         .then((user) => {
           setUserState(user, jwt, true);
-          console.log(user);
           
           return user;
         })
+        .catch(console.error);
     }
 
     return jwt;
@@ -104,8 +106,8 @@ const App = () => {
   const handleRegistration = (values) => {
     return handleRequest(() => {
       return auth.signup(values)
-        .then((data) => {
-          setUserState(data, true);
+        .then(({data: user}) => {
+          setUserState(user, true);
         });
     });
   }
@@ -129,21 +131,21 @@ const App = () => {
     setUserState({ name: "", avatar: "" }, false);
   };
 
-  const handleCardLike = ({ id, isLiked, token }) => {
+  const handleCardLike = ({ _id, isLiked, token }) => {
     !isLiked
       ?
-        api.likeItem(id, token)
+        api.likeItem(_id, token)
           .then((updatedCard) => {
             setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
+              cards.map((item) => (item._id === updatedCard._id ? updatedCard : item))
             );
           })
           .catch(console.error)
       :
-        api.dislikeItem(id, token)
+        api.dislikeItem(_id, token)
           .then((updatedCard) => {
             setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
+              cards.map((item) => (item._id === updatedCard._id ? updatedCard : item))
             );
           })
           .catch(console.error);
@@ -170,14 +172,7 @@ const App = () => {
 
   useEffect(() => {
     handleCheckToken()
-      .catch(console.error);
   }, [])
-
-  // useEffect(() => {
-    
-  // })
-
-
 
   return (
     <CurrentUserContext.Provider value={{ isLoggedIn, user, clothingItems }}>

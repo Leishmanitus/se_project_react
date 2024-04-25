@@ -22,8 +22,12 @@ const ClothesSection = () => {
       <div className="clothes__items">
         {
           clothingItems
-            .filter((card) => user._id === card.owner._id || card.owner.name === "default")
-            .map((filteredCard, index) => <ItemCard key={index} card={filteredCard} />)
+            .filter((card) => {
+              return user._id === card.owner._id || card.owner.name === "default";
+            })
+            .map((filteredCard, index) => {
+              return <ItemCard key={index} card={filteredCard} />
+            })
         }
       </div>
     </>

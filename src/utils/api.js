@@ -27,7 +27,7 @@ const addItem = ({ name, weather, imageUrl }, token) => {
 };
 
 const removeItem = (_id, token) => {
-  return request(`${url}/items/:${_id}`, {
+  return request(`${url}/items/${_id}`, {
     method: "DELETE",
     headers: {
       'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const removeItem = (_id, token) => {
 };
 
 const likeItem = (_id, token) => {
-  return request(`${url}/items/:${_id}/likes`, {
+  return request(`${url}/items/${_id}/likes`, {
     method: "PUT",
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const likeItem = (_id, token) => {
 };
 
 const dislikeItem = (_id, token) => {
-  return request(`${url}/items/:${_id}/likes`, {
+  return request(`${url}/items/${_id}/likes`, {
     method: "DELETE",
     headers: {
       'Content-Type': 'application/json',
