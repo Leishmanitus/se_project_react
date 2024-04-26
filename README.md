@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# What To Wear Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project aims to provide users with personalized clothing recommendations based on current weather conditions. It leverages the MERN (MongoDB, Express.js, React.js, Node.js) stack to deliver a seamless user experience. Below is an overview of the project's functionalities and components.
 
-## Available Scripts
+## Front-End Functionality
 
-In the project directory, you can run:
+### Weather Integration
+- Fetches data from a weather API to retrieve current weather conditions.
+- Displays weather information to users, including temperature and weather description.
 
-### `npm start`
+### Clothing Recommendations
+- Suggests appropriate clothing items based on the current temperature.
+- Allows users to view recommended clothing items for different weather conditions.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Custom API Integration
+- Interacts with a custom API to handle back-end operations, such as fetching clothing data and user authentication.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### User Authentication
+- Enables users to sign up and sign in securely.
+- Provides options for users to update their profile information.
 
-### `npm test`
+### Clothing Management
+- Allows users to add new custom clothing items to their profile.
+- Supports liking and unliking clothing items to personalize recommendations.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Temperature Display
+- Allows users to toggle between Fahrenheit and Celsius for temperature display.
 
-### `npm run build`
+### User Session Management
+- Enables users to log out securely to end their session.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Back-End Functionality
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Database Operations
+- Pushes requests to the database to store and retrieve user data, clothing items, and other relevant information.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Authorization with JWT
+- Authorizes user actions using JSON Web Tokens (JWT) to ensure secure access to protected routes.
 
-### `npm run eject`
+### Route Definition
+- Defines routes for each HTTP request to handle various user interactions and data operations.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Model Objects
+- Defines model objects for forms and data entities to ensure structured data storage.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Controller Logic
+- Implements controllers to handle incoming requests, validate data, and execute appropriate actions.
+- Utilizes defensive coding practices to handle errors and ensure smooth operation.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Technology Stack
+- **MongoDB**: A NoSQL database used for storing user data and clothing information.
+- **Express.js**: A web application framework for Node.js used to build the back-end API.
+- **React.js**: A JavaScript library for building user interfaces used to develop the front-end components.
+- **Node.js**: A JavaScript runtime environment used to execute server-side code.
+- **JSON Web Tokens (JWT)**: Used for user authentication and authorization.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Getting Started
+To run the project locally, follow these steps:
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+3. Install dependencies by running `npm install` in both the client and server directories.
+4. Configure environment variables for MongoDB connection, API keys, and other sensitive data.
+5. Start the development server by running `npm start` in both the client and server directories.
 
-## Learn More
+## Contributors
+- [Tyler Leishman](https://github.com/Leishmanitus) - Project Lead & Developer
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Links
+- Link to the Front-End repo: (https://github.com/Leishmanitus/se_project_react.git)
+- Link to the Back-End repo: (https://github.com/Leishmanitus/se_project_express.git)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
