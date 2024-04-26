@@ -6,7 +6,7 @@ import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
 const ClothesSection = () => {
   const { handleModalChange } = useContext(ModalContext);
-  const { user, clothingItems } = useContext(CurrentUserContext);
+  const { user, clothingItems, isLoggedIn } = useContext(CurrentUserContext);
   return (
     <>
       <div className="clothes__message-group">
@@ -21,7 +21,7 @@ const ClothesSection = () => {
       </div>
       <div className="clothes__items">
         {
-          clothingItems
+          isLoggedIn && clothingItems
             .filter((card) => {
               return user._id === card.owner._id || card.owner.name === "default";
             })
