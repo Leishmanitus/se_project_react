@@ -14,7 +14,7 @@ const RegisterModal = () => {
       password: "",
   };
 
-  const { handleRegistration, isLoading } = useContext(ModalContext);
+  const { handleRegistration, isLoading, handleModalChange } = useContext(ModalContext);
   const { signupFormName, signupTitle, loginButton, signupButton, signupLoadingText } = modalOptions.loginOptions;
   const { values, handleChange, setValues } = useForm(initialValues);
 
@@ -98,7 +98,7 @@ const RegisterModal = () => {
         <button className="form__submit" type="submit">
           {isLoading ? signupLoadingText : signupButton}
         </button>
-        <NavLink className="form__link" to={"/signup"}>
+        <NavLink className="form__link" to={"/"} onClick={() => handleModalChange("signin")}>
           <p className="form__text">or {loginButton}</p>
         </NavLink>
       </div>

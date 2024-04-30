@@ -12,7 +12,7 @@ const LoginModal = () => {
         password: "",
     };
 
-    const { handleLogin, isLoading } = useContext(ModalContext);
+    const { handleLogin, isLoading, handleModalChange } = useContext(ModalContext);
     const { loginFormName, loginTitle, loginButton, signupButton, loginLoadingText, signupLoadingText } = modalOptions.loginOptions;
     const { values, handleChange, setValues } = useForm(initialValues);
 
@@ -63,7 +63,7 @@ const LoginModal = () => {
         <button className="form__submit" type="submit">
           {isLoading ? loginLoadingText : loginButton}
         </button>
-        <NavLink className="form__link" to={"/signup"}>
+        <NavLink className="form__link" to={"/"} onClick={() => handleModalChange("signup")}>
           <p className="form__text">or {signupButton}</p>
         </NavLink>
       </div>

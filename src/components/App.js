@@ -60,16 +60,16 @@ const App = () => {
 
   const handleSubmitItem = (items, token) => {
     return handleRequest(() => {
-      return api.addItem(items, token).then((newItems) => {
-        setClothingItems([newItems, ...clothingItems]);
+      return api.addItem(items, token).then((newItem) => {
+        setClothingItems([newItem, ...clothingItems]);
       });
     });
   };
 
-  const handleDeleteItem = (id, token) => {
+  const handleDeleteItem = (_id, token) => {
     return handleRequest(() => {
-      return api.removeItem(id, token).then((items) => {
-        setClothingItems(() => items.filter((i) => i._id !== id));
+      return api.removeItem(_id, token).then((items) => {
+        setClothingItems(() => items.filter((i) => i._id !== _id));
       });
     });
   };
@@ -118,6 +118,7 @@ const App = () => {
         .then(({data: user}) => {
           if (user.token) {
             localStorage.setItem('jwt', user.token);
+            console.log(clothingItems);
             setUserState({ name: user.name, avatar: user.avatar, id: user._id }, user.token, true);
           }
 
