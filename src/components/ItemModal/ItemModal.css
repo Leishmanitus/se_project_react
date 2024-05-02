@@ -51,6 +51,7 @@
 .modal__delete-button {
   width: 110px;
   height: 24px;
+  visibility: visible;
   color: #ff4d00;
   background-color: #fff;
   font-family: Cabinet Grotesk;

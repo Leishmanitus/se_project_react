@@ -119,7 +119,7 @@ const App = () => {
           if (user.token) {
             localStorage.setItem('jwt', user.token);
             console.log(clothingItems);
-            setUserState({ name: user.name, avatar: user.avatar, id: user._id }, user.token, true);
+            setUserState({ name: user.name, avatar: user.avatar, _id: user._id }, user.token, true);
           }
 
           return user;
@@ -129,7 +129,7 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
-    setUserState({ name: "", avatar: "" }, false);
+    setUserState({ name: "", avatar: "", _id: "" }, "", false);
   };
 
   const handleCardLike = ({ _id, isLiked, token }) => {

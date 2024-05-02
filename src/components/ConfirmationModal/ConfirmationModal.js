@@ -5,28 +5,27 @@ import { useEscape } from "../../hooks/useEscape";
 
 const ConfirmationModal = () => {
   const { handleClose, modalOptions, isLoading, handleDeleteItem, selectedItem } = useContext(ModalContext);
-  const { title, message, confirmText, cancelText, loadingText } =
-    modalOptions.confirmationOptions;
+  const { confirmFormName, confirmMessage, confirmText, confirmCancelText, confirmLoadingText } = modalOptions.confirmationOptions;
 
   useEscape(handleClose);
 
   return (
-    <div className={`modal modal_type_${title}`}>
-      <div className={`modal__container modal__container_type_${title}`}>
-        <p className="modal__message">{message}</p>
+    <div className={`modal modal_type_${confirmFormName}`}>
+      <div className={`modal__container modal__container_type_${confirmFormName}`}>
+        <p className="modal__message">{confirmMessage}</p>
         <button
           className="modal__confirm-button"
           type="button"
           onClick={() => handleDeleteItem(selectedItem._id)}
         >
-          {isLoading ? loadingText : confirmText}
+          {isLoading ? confirmLoadingText : confirmText}
         </button>
         <button
           className="modal__cancel-button"
           type="button"
           onClick={handleClose}
         >
-          {cancelText}
+          {confirmCancelText}
         </button>
         <button
           className="modal__close-button"
