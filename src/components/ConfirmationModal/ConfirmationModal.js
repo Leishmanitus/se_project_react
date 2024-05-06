@@ -2,8 +2,10 @@ import { useContext } from "react";
 import "./ConfirmationModal.css";
 import ModalContext from "../../contexts/ModalContext";
 import { useEscape } from "../../hooks/useEscape";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const ConfirmationModal = () => {
+  const { user } = useContext(CurrentUserContext);
   const { handleClose, modalOptions, isLoading, handleDeleteItem, selectedItem } = useContext(ModalContext);
   const { confirmFormName, confirmMessage, confirmText, confirmCancelText, confirmLoadingText } = modalOptions.confirmationOptions;
 
@@ -16,7 +18,7 @@ const ConfirmationModal = () => {
         <button
           className="modal__confirm-button"
           type="button"
-          onClick={() => handleDeleteItem(selectedItem._id)}
+          onClick={() => handleDeleteItem(selectedItem._id, user.token)}
         >
           {isLoading ? confirmLoadingText : confirmText}
         </button>

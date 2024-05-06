@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "./App.css";
 import Header from "./Header/Header";
 import Profile from "./Profile/Profile";
@@ -45,7 +45,6 @@ const App = () => {
   };
 
   const handleItemClick = (item, modal) => {
-    console.log(item);
     setSelectedItem(item);
     setActiveModal(modal);
   };
@@ -60,16 +59,19 @@ const App = () => {
 
   const handleSubmitItem = (items, token) => {
     return handleRequest(() => {
-      return api.addItem(items, token).then((newItem) => {
+      return api.addItem(items, token).then(({data: newItem}) => {
         setClothingItems([newItem, ...clothingItems]);
+        
       });
     });
   };
 
   const handleDeleteItem = (_id, token) => {
     return handleRequest(() => {
-      return api.removeItem(_id, token).then((items) => {
-        setClothingItems(() => items.filter((i) => i._id !== _id));
+      return api.removeItem(_id, token).then(() => {
+        setClothingItems(() => clothingItems.filter((i) => {
+          return i._id !== _id
+        }));
       });
     });
   };
@@ -83,8 +85,9 @@ const App = () => {
     })
   }
 
-  const setUserState = (user, token, log) => {
-    setUser({ name: user.name, avatar: user.avatar, _id: user._id, token: token });
+  const setUserState = ({ name, avatar, _id, token }, log) => {
+    localStorage.setItem('jwt', token)
+    setUser({ name, avatar, _id, token });
     setIsLoggedIn(log);
   };
 
@@ -92,8 +95,8 @@ const App = () => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       return auth.getContent(jwt)
-        .then((user) => {
-          setUserState(user, jwt, true);
+        .then(({ name, avatar, _id, token }) => {
+          setUserState({ name, avatar, _id, token }, jwt, true);
           
           return user;
         })
@@ -106,8 +109,8 @@ const App = () => {
   const handleRegistration = (values) => {
     return handleRequest(() => {
       return auth.signup(values)
-        .then(({data: user}) => {
-          setUserState(user, true);
+        .then(({data: { name, avatar, _id, token }}) => {
+          setUserState({ name, avatar, _id, token }, true);
         });
     });
   }
@@ -115,11 +118,9 @@ const App = () => {
   const handleLogin = (values) => {
     return handleRequest(() => {
       return auth.signin(values)
-        .then(({data: user}) => {
+        .then(({data: { name, avatar, _id, token }}) => {
           if (user.token) {
-            localStorage.setItem('jwt', user.token);
-            console.log(clothingItems);
-            setUserState({ name: user.name, avatar: user.avatar, _id: user._id }, user.token, true);
+            setUserState({ name, avatar, _id, token }, true);
           }
 
           return user;
@@ -165,15 +166,15 @@ const App = () => {
   useEffect(() => {
     api
       .getItemsList()
-      .then((items) => {
-        setClothingItems(items.data);
+      .then(({data: items}) => {
+        setClothingItems(items);
       })
       .catch(console.error);
-  }, []);
+  }, [clothingItems]);
 
   useEffect(() => {
     handleCheckToken()
-  }, [])
+  }, [isLoggedIn, user])
 
   return (
     <CurrentUserContext.Provider value={{ isLoggedIn, user, clothingItems }}>
