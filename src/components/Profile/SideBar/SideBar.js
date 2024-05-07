@@ -24,7 +24,7 @@ const SideBar = () => {
             : 
               (
                 <span className="sidebar__avatar-letter">
-                  {user.name.toUpperCase().charAt(0) || "?"}
+                  {String.call(user.name).charAt(0).toUpperCase() || "?"}
                 </span>
               )
           }

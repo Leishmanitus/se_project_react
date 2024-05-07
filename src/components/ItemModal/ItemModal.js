@@ -11,10 +11,6 @@ const ItemModal = () => {
   const { name, imageUrl, weather, owner } = selectedItem;
   const { previewFormName, previewDeleteButton } = modalOptions.previewOptions;
   const isOwn = owner._id === user._id;
-  const modalDeleteButtonClassName = (
-    `modal__delete-button ${isOwn ? '' : 'modal__delete-button_hidden'}`
-  );
-
 
   useEscape(handleClose);
 

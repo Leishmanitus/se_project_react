@@ -23,7 +23,6 @@ const EditProfileModal = () => {
     }, [setValues]);
 
     const handleSubmission = () => {
-        values.id = user._id;
         handleSubmitInfo(values, user.token);
     };
 

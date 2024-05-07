@@ -16,7 +16,8 @@ function ItemCard({ card }) {
   };
 
   const handleLikeButton = () => {
-    handleCardLike({ _id: card._id, isLiked, token: user.token });
+    console.log(card.owner);
+    handleCardLike({ _id: card._id, isLiked });
     setIsLiked(!isLiked);
   };
 
