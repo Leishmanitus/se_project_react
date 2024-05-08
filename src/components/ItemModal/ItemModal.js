@@ -10,7 +10,7 @@ const ItemModal = () => {
 
   const { name, imageUrl, weather, owner } = selectedItem;
   const { previewFormName, previewDeleteButton } = modalOptions.previewOptions;
-  const isOwn = owner._id === user._id;
+  const isOwn = owner === user._id;
 
   useEscape(handleClose);
 

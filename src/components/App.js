@@ -77,7 +77,6 @@ const App = () => {
   };
 
   const handleSubmitInfo = (info, token) => {
-    console.log([info, token]);
     return handleRequest(() => {
       return api.updateUser(info, token).then(({ data: { name, avatar } }) => {
         setUser({ name, avatar, _id: user._id, token: user.token });
@@ -94,28 +93,21 @@ const App = () => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       return auth.getContent(jwt)
-        .then(( { data: { name, avatar, _id, token } }) => {
-          console.log(token); // left off
-          setUserState({ name, avatar, _id, token }, true);
+        .then(( { data: { name, avatar, _id } }) => {
+          setUserState({ name, avatar, _id, token: jwt }, true);
           
           return user;
         })
         .catch(console.error);
     }
 
-    return jwt;
+    return;
   };
 
   const handleRegistration = (values) => {
     return handleRequest(() => {
       return auth.signup(values)
-        .then(({ data: { name, avatar, _id, token } }) => {
-          console.log(token);
-          if (token) {
-            localStorage.setItem('jwt', token)
-            setUserState({ name, avatar, _id, token }, true);
-          }
-        });
+        .then(() => handleLogin(values));
     });
   }
 
@@ -123,6 +115,7 @@ const App = () => {
     return handleRequest(() => {
       return auth.signin(values)
         .then(({ data: { name, avatar, _id, token } }) => {
+          console.log(token);
           if (token) {
             localStorage.setItem('jwt', token)
             setUserState({ name, avatar, _id, token }, true);
@@ -178,7 +171,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    handleCheckToken()
+    handleCheckToken();
   }, [])
 
   return (
@@ -222,7 +215,7 @@ const App = () => {
                 {
                   isLoggedIn
                     ?
-                      (clothingItems.length !== 0 && weatherData.temperature) ? (
+                      (weatherData.temperature) ? (
                         <Profile />
                       ) : (
                         <Redirect to={"/"} />

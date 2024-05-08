@@ -8,11 +8,11 @@ function WeatherCard() {
   );
 
   const hours = new Date().getHours();
-  const isNight = hours >= 18 || hours <= 6;
+  const isNight = hours >= 20 || hours <= 6;
 
   const weatherCardUrl = require(`../../../images/weather/${
     isNight ? "night" : "day"
-  }/${weatherData.type}.svg`);
+  }/${ weatherData.type === "haze" ? "fog" : weatherData.type }.svg`);
 
   const temperature = weatherData.temperature[currentTemperatureUnit];
 

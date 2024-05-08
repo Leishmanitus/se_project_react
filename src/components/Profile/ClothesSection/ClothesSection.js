@@ -1,13 +1,12 @@
 import "./ClothesSection.css";
 import ItemCard from "../../Main/ItemCard/ItemCard";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import ModalContext from "../../../contexts/ModalContext";
 import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
 const ClothesSection = () => {
   const { handleModalChange } = useContext(ModalContext);
   const { user, clothingItems, isLoggedIn } = useContext(CurrentUserContext);
-
   return (
     <>
       <div className="clothes__message-group">
@@ -24,7 +23,7 @@ const ClothesSection = () => {
         {
           isLoggedIn && clothingItems
             .filter((card) => {
-              return user._id === card.owner._id || card.owner.name === "default";
+              return user._id === card.owner;
             })
             .map((filteredCard, index) => {
               return <ItemCard key={index} card={filteredCard} />
