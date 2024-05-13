@@ -2,6 +2,7 @@ import { useContext } from "react";
 import "./ItemModal.css";
 import ModalContext from "../../contexts/ModalContext";
 import { useEscape } from "../../hooks/useEscape";
+import { useOverlay } from "../../hooks/useOverlay";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const ItemModal = () => {
@@ -13,6 +14,7 @@ const ItemModal = () => {
   const isOwn = owner === user._id;
 
   useEscape(handleClose);
+  useOverlay(handleClose);
 
   return (
     <div className={`modal modal_type_${previewFormName}`}>

@@ -19,6 +19,7 @@ import AddItemModal from "./ModalWithForm/AddItemModal/AddItemModal";
 import RegisterModal from "./ModalWithForm/RegisterModal/RegisterModal";
 import LoginModal from "./ModalWithForm/LoginModal/LoginModal";
 import EditProfileModal from "./EditProfileModal/EditProfileModal";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   const [activeModal, setActiveModal] = useState("");
@@ -131,7 +132,7 @@ const App = () => {
     setUserState({ name: "", avatar: "", _id: "" }, "", false);
   };
 
-  const handleCardLike = ({ _id, isLiked }) => {
+  const handleCardLike = ({ _id, isLiked, setIsLiked }) => {
     !isLiked
       ?
         api.likeItem(_id, user.token)
@@ -139,6 +140,7 @@ const App = () => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === updatedCard._id ? updatedCard : item))
             );
+            setIsLiked(true);
           })
           .catch(console.error)
       :
@@ -147,6 +149,7 @@ const App = () => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === updatedCard._id ? updatedCard : item))
             );
+            setIsLiked(false);
           })
           .catch(console.error);
   };
@@ -211,19 +214,9 @@ const App = () => {
                     <Main />
                   )}
               </Route>
-              <Route path="/profile">
-                {
-                  isLoggedIn
-                    ?
-                      (weatherData.temperature) ? (
-                        <Profile />
-                      ) : (
-                        <Redirect to={"/"} />
-                    ) : (
-                      <Redirect to={"/"} />
-                    )
-                }
-              </Route>
+              <ProtectedRoute isLoggedIn={isLoggedIn} path={'/profile'}>
+                <Profile />
+              </ProtectedRoute>
               <Route path="/signup">
                 <RegisterModal />
               </Route>

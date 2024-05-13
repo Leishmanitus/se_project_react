@@ -7,14 +7,14 @@ import { modalOptions } from "../../utils/constants";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const EditProfileModal = () => {
-    const initialValues = {
-        name: "",
-        avatar: "",
-    };
-
     const { user } = useContext(CurrentUserContext);
     const { handleSubmitInfo, isLoading } = useContext(ModalContext);
     const { editProfileName, editProfileTitle, editProfileButton, editProfileLoading } = modalOptions.editProfileOptions;
+    
+    const initialValues = {
+        name: user.name,
+        avatar: user.avatar,
+    };
     const { values, handleChange, setValues } = useForm(initialValues);
 
     const { name, avatar } = values;

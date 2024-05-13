@@ -28,97 +28,95 @@ const AddItemModal = () => {
   };
 
   return (
-      <>
-        <ModalWithForm handleSubmit={handleSubmit} formName={formName}>
-          <h3 className="modal__title">{formTitle}</h3>
-          <label className="form__label" htmlFor={"garment-name"}>
-            Name
-            <input
-              className="form__input"
-              id="garment-name"
-              name="name"
-              placeholder="Name"
-              minLength="2"
-              maxLength="40"
-              type="text"
-              value={name}
-              onChange={handleChange}
-              required
-            />
+    <ModalWithForm handleSubmit={handleSubmit} formName={formName}>
+      <h3 className="modal__title">{formTitle}</h3>
+      <label className="form__label" htmlFor={"garment-name"}>
+        Name
+        <input
+          className="form__input"
+          id="garment-name"
+          name="name"
+          placeholder="Name"
+          minLength="2"
+          maxLength="40"
+          type="text"
+          value={name}
+          onChange={handleChange}
+          required
+        />
+      </label>
+
+      <label className="form__label" htmlFor={"garment-image"}>
+        Image
+        <input
+          className="form__input"
+          id="garment-image"
+          name="imageUrl"
+          placeholder="Image URL"
+          minLength="2"
+          maxLength="200"
+          type="text"
+          value={imageUrl}
+          onChange={handleChange}
+          required
+        />
+      </label>
+
+      <p className="form__message">Select the weather type:</p>
+
+      <ul className="form__list">
+        <li className="form__list-item">
+          <input
+            className="form__radio"
+            type="radio"
+            name="weather"
+            id="hot"
+            value="hot"
+            onChange={handleChange}
+            checked={weather === "hot"}
+          />
+
+          <label className="form__radio-text" htmlFor="hot">
+            Hot
           </label>
+        </li>
 
-          <label className="form__label" htmlFor={"garment-image"}>
-            Image
-            <input
-              className="form__input"
-              id="garment-image"
-              name="imageUrl"
-              placeholder="Image URL"
-              minLength="2"
-              maxLength="200"
-              type="text"
-              value={imageUrl}
-              onChange={handleChange}
-              required
-            />
+        <li className="form__list-item">
+          <input
+            className="form__radio"
+            type="radio"
+            name="weather"
+            id="warm"
+            value="warm"
+            onChange={handleChange}
+            checked={weather === "warm"}
+          />
+
+          <label className="form__radio-text" htmlFor="warm">
+            Warm
           </label>
+        </li>
 
-          <p className="form__message">Select the weather type:</p>
+        <li className="form__list-item">
+          <input
+            className="form__radio"
+            type="radio"
+            name="weather"
+            id="cold"
+            value="cold"
+            onChange={handleChange}
+            checked={weather === "cold"}
+          />
 
-          <ul className="form__list">
-            <li className="form__list-item">
-              <input
-                className="form__radio"
-                type="radio"
-                name="weather"
-                id="hot"
-                value="hot"
-                onChange={handleChange}
-                checked={weather === "hot"}
-              />
-
-              <label className="form__radio-text" htmlFor="hot">
-                Hot
-              </label>
-            </li>
-
-            <li className="form__list-item">
-              <input
-                className="form__radio"
-                type="radio"
-                name="weather"
-                id="warm"
-                value="warm"
-                onChange={handleChange}
-                checked={weather === "warm"}
-              />
-
-              <label className="form__radio-text" htmlFor="warm">
-                Warm
-              </label>
-            </li>
-
-            <li className="form__list-item">
-              <input
-                className="form__radio"
-                type="radio"
-                name="weather"
-                id="cold"
-                value="cold"
-                onChange={handleChange}
-                checked={weather === "cold"}
-              />
-
-              <label className="form__radio-text" htmlFor="cold">
-                Cold
-              </label>
-            </li>
-          </ul>
-          <button className="form__submit" type="submit">
-            {isLoading ? formLoadingText : formButtonText}
-          </button>
-        </ModalWithForm>
-      </>
+          <label className="form__radio-text" htmlFor="cold">
+            Cold
+          </label>
+        </li>
+      </ul>
+      <button className="form__submit" type="submit">
+        {isLoading ? formLoadingText : formButtonText}
+      </button>
+    </ModalWithForm>
   );
 };
 

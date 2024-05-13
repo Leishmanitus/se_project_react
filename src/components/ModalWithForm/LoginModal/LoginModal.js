@@ -28,7 +28,7 @@ const LoginModal = () => {
   return (
     <ModalWithForm handleSubmit={handleUserLogin} formName={loginFormName}>
       <h3 className="modal__title">{loginTitle}</h3>
-      <label className="form__label" htmlFor={"garment-name"}>
+      <label className="form__label" htmlFor={"user-email"}>
         Email
         <input
           className="form__input"
@@ -43,7 +43,7 @@ const LoginModal = () => {
           required
         />
       </label>  
-      <label className="form__label" htmlFor={"garment-name"}>
+      <label className="form__label" htmlFor={"user-password"}>
         Password
         <input
           className="form__input"

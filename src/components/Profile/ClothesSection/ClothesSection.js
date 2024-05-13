@@ -23,7 +23,7 @@ const ClothesSection = () => {
         {
           isLoggedIn && clothingItems
             .filter((card) => {
-              return user._id === card.owner;
+              return user._id === card?.owner;
             })
             .map((filteredCard, index) => {
               return <ItemCard key={index} card={filteredCard} />

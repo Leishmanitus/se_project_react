@@ -30,7 +30,7 @@ const RegisterModal = () => {
   return (
     <ModalWithForm handleSubmit={handleUserRegistration} formName={signupFormName}>
       <h3 className="modal__title">{signupTitle}</h3>
-      <label className="form__label" htmlFor={"garment-name"}>
+      <label className="form__label" htmlFor={"user-email"}>
         Email
         <input
             className="form__input"
@@ -46,7 +46,7 @@ const RegisterModal = () => {
         />
       </label>
 
-      <label className="form__label" htmlFor={"garment-name"}>
+      <label className="form__label" htmlFor={"user-password"}>
         Password
         <input
             className="form__input"
@@ -62,7 +62,7 @@ const RegisterModal = () => {
         />
       </label>
 
-      <label className="form__label" htmlFor={"garment-name"}>
+      <label className="form__label" htmlFor={"user-name"}>
         Name
         <input
             className="form__input"
@@ -78,7 +78,7 @@ const RegisterModal = () => {
         />
       </label>
 
-      <label className="form__label" htmlFor={"garment-name"}>
+      <label className="form__label" htmlFor={"user-avatar"}>
         Avatar URL
         <input
             className="form__input"
