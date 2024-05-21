@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useCallback } from "react";
 import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard";
 import ItemCard from "./ItemCard/ItemCard";
@@ -32,6 +32,14 @@ function Main() {
 
   const weatherCondition = handleWeatherCondition(temperature);
 
+  const handleRenderItems = useCallback(() => {
+    return clothingItems
+      .filter((card) => card.weather === weatherCondition)
+      .map((filteredCard) => {
+        return <ItemCard key={filteredCard._id} card={filteredCard} />
+      });
+  }, [clothingItems]);
+
   if (!weatherData) return null;
 
   return (
@@ -44,11 +52,7 @@ function Main() {
         </p>
         <div className="main__cards">
           {
-            clothingItems
-              .filter((card) => card.weather === weatherCondition)
-              .map((filteredCard) => {
-                return <ItemCard key={filteredCard._id} card={filteredCard} />
-              })
+            handleRenderItems()
           }
         </div>
       </section>

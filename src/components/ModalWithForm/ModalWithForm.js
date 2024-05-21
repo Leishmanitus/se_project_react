@@ -2,17 +2,14 @@ import { useContext } from "react";
 import "./ModalWithForm.css";
 import ModalContext from "../../contexts/ModalContext";
 import { useEscape } from "../../hooks/useEscape";
-import { useOverlay } from "../../hooks/useOverlay";
 
 function ModalWithForm({ children, handleSubmit, formName }) {
-  const { handleClose } = useContext(ModalContext);
+  const { handleClose, handleOverlay } = useContext(ModalContext);
 
   useEscape(handleClose);
-  useOverlay(handleClose);
-
 
   return (
-    <div className={`modal modal_type_${formName}`}>
+    <div onClick={(event) => handleOverlay(event)} className={`modal modal_type_${formName}`}>
       <div className={`modal__container`}>
         <form
           className="modal__form form"

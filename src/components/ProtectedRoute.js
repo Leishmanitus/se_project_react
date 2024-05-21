@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import CurrentUserContext from '../contexts/CurrentUserContext';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom';
 
-const ProtectedRoute = ({ children, ...props }) => {
-  const { isLoggedIn } = useContext(CurrentUserContext);
+const ProtectedRoute = ({ children, redirect, ...props }) => {
 
   return (
     <Route {...props}>
-      {isLoggedIn ? children : <Redirect to={'/signin'} />}
+      {localStorage.getItem('jwt') ? children : <Redirect to={redirect}/>}
     </Route>
   )
 }

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useMemo } from "react";
+import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import "./ItemCard.css";
 import heartImage from "../../../images/like-heart.svg";
 import filledHeartImage from "../../../images/filled-like-heart.svg";
@@ -13,6 +13,16 @@ function ItemCard({ card }) {
 
   const cardToggleName = useMemo(() => isLiked ? "card__toggle_on" : "", [isLiked]);
   const cardToggleSource = useMemo(() => isLiked ? filledHeartImage : heartImage, [isLiked]);
+  const cardImage = useMemo(() => {
+    return (<><img
+      className={`card__toggle ${cardToggleName}`}
+      src={cardToggleSource} alt={"❤"}
+      onClick={(event) => {
+        event.stopPropagation();
+        handleLikeButton();
+      }}
+    /></>);
+  }, [isLiked]);
 
   const handleClick = () => {
     handleItemClick(card, "preview");
@@ -33,14 +43,9 @@ function ItemCard({ card }) {
       <img className="card__image" src={card.imageUrl} alt={card.name} />
       <div className="card__title-frame">
         <h3 className="card__title">{card.name}</h3>
-        {isLoggedIn && <img
-          className={`card__toggle ${cardToggleName}`}
-          src={cardToggleSource} alt={"❤"}
-          onClick={(event) => {
-            event.stopPropagation();
-            handleLikeButton();
-          }}
-        />}
+        {
+          isLoggedIn && cardImage
+        }
       </div>
     </div>
   );

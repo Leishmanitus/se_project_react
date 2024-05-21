@@ -1,12 +1,21 @@
 import "./ClothesSection.css";
 import ItemCard from "../../Main/ItemCard/ItemCard";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import ModalContext from "../../../contexts/ModalContext";
 import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
 const ClothesSection = () => {
   const { handleModalChange } = useContext(ModalContext);
   const { user, clothingItems, isLoggedIn } = useContext(CurrentUserContext);
+
+  const handleRenderItems = useCallback(() => {
+    return clothingItems
+      .filter((card) => user._id === card?.owner)
+      .map((filteredCard, index) => {
+        return <ItemCard key={index} card={filteredCard} />
+      })
+  }, [clothingItems]);
+
   return (
     <>
       <div className="clothes__message-group">
@@ -21,13 +30,7 @@ const ClothesSection = () => {
       </div>
       <div className="clothes__items">
         {
-          isLoggedIn && clothingItems
-            .filter((card) => {
-              return user._id === card?.owner;
-            })
-            .map((filteredCard, index) => {
-              return <ItemCard key={index} card={filteredCard} />
-            })
+          isLoggedIn && handleRenderItems()
         }
       </div>
     </>

@@ -41,6 +41,12 @@ const App = () => {
     setActiveModal("");
   };
 
+  const handleOverlay = (event) => {
+    if (event.target === event.currentTarget) {
+      handleClose();
+    }
+  };
+
   const handleToggleSwitchChange = (isChecked) => {
     isChecked ? setCurrentTemperatureUnit("F") : setCurrentTemperatureUnit("C");
   };
@@ -178,7 +184,12 @@ const App = () => {
   }, [])
 
   return (
-    <CurrentUserContext.Provider value={{ isLoggedIn, user, clothingItems }}>
+    <CurrentUserContext.Provider
+      value={{
+        isLoggedIn,
+        user,
+        clothingItems
+      }}>
       <div className="app">
         <CurrentTemperatureUnitContext.Provider
           value={{
@@ -190,6 +201,7 @@ const App = () => {
           <ModalContext.Provider
             value={{
               handleClose,
+              handleOverlay,
               activeModal,
               handleItemClick,
               handleCardLike,
@@ -212,15 +224,26 @@ const App = () => {
                 {weatherData.temperature &&
                   (weatherData.temperature.F || weatherData.temperature.C) && (
                     <Main />
-                  )}
+                  )
+                }
               </Route>
-              <ProtectedRoute isLoggedIn={isLoggedIn} path={'/profile'}>
+              <ProtectedRoute redirect={'/'} path={'/profile'}>
                 <Profile />
               </ProtectedRoute>
               <Route path="/signup">
+                {weatherData.temperature &&
+                  (weatherData.temperature.F || weatherData.temperature.C) && (
+                    <Main />
+                  )
+                }
                 <RegisterModal />
               </Route>
               <Route path="/signin">
+                {weatherData.temperature &&
+                  (weatherData.temperature.F || weatherData.temperature.C) && (
+                    <Main />
+                  )
+                }
                 <LoginModal />
               </Route>
             </Switch>

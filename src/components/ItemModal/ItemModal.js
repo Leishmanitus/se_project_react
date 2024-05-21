@@ -2,11 +2,10 @@ import { useContext } from "react";
 import "./ItemModal.css";
 import ModalContext from "../../contexts/ModalContext";
 import { useEscape } from "../../hooks/useEscape";
-import { useOverlay } from "../../hooks/useOverlay";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const ItemModal = () => {
-  const { handleClose, handleModalChange, modalOptions, selectedItem } = useContext(ModalContext);
+  const { handleClose, handleOverlay, handleModalChange, modalOptions, selectedItem } = useContext(ModalContext);
   const { user } = useContext(CurrentUserContext);
 
   const { name, imageUrl, weather, owner } = selectedItem;
@@ -14,10 +13,9 @@ const ItemModal = () => {
   const isOwn = owner === user._id;
 
   useEscape(handleClose);
-  useOverlay(handleClose);
 
   return (
-    <div className={`modal modal_type_${previewFormName}`}>
+    <div onClick={(event) => handleOverlay(event)} className={`modal modal_type_${previewFormName}`}>
       <div className={`modal__container modal__container_type_${previewFormName}`}>
         <button
           className={`modal__close-button modal__close-button_type_${previewFormName}`}
