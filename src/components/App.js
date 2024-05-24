@@ -5,7 +5,7 @@ import Profile from "./Profile/Profile";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 import ItemModal from "./ItemModal/ItemModal";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import ModalContext from "../contexts/ModalContext";
@@ -67,8 +67,7 @@ const App = () => {
   const handleSubmitItem = (items, token) => {
     return handleRequest(() => {
       return api.addItem(items, token).then(({data: newItem}) => {
-        setClothingItems([newItem, ...clothingItems]);
-        
+        setClothingItems([...clothingItems, newItem]);
       });
     });
   };
@@ -114,7 +113,9 @@ const App = () => {
   const handleRegistration = (values) => {
     return handleRequest(() => {
       return auth.signup(values)
-        .then(() => handleLogin(values));
+        .then(() => {
+          return handleLogin(values);
+        });
     });
   }
 
@@ -122,7 +123,6 @@ const App = () => {
     return handleRequest(() => {
       return auth.signin(values)
         .then(({ data: { name, avatar, _id, token } }) => {
-          console.log(token);
           if (token) {
             localStorage.setItem('jwt', token)
             setUserState({ name, avatar, _id, token }, true);
@@ -177,7 +177,7 @@ const App = () => {
         setClothingItems(items);
       })
       .catch(console.error);
-  }, []);
+  }, [isLoggedIn, clothingItems, user]);
 
   useEffect(() => {
     handleCheckToken();

@@ -14,7 +14,7 @@ const ClothesSection = () => {
       .map((filteredCard, index) => {
         return <ItemCard key={index} card={filteredCard} />
       })
-  }, [clothingItems]);
+  }, [clothingItems, isLoggedIn]);
 
   return (
     <>

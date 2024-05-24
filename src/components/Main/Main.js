@@ -6,7 +6,7 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnit
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Main() {
-  const { clothingItems } = useContext(CurrentUserContext);
+  const { isLoggedIn, clothingItems } = useContext(CurrentUserContext);
   const { currentTemperatureUnit, weatherData } = useContext(CurrentTemperatureUnitContext);
   const temperature = weatherData.temperature[currentTemperatureUnit];
 
