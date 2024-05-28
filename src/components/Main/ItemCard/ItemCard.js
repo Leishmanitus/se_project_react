@@ -11,6 +11,10 @@ function ItemCard({ card }) {
 
   const [ isLiked, setIsLiked ] = useState(false);
 
+  useEffect(() => {
+    setIsLiked(card.likes.includes(user._id));
+  }, [isLoggedIn]);
+
   const handleClick = () => {
     handleItemClick(card, "preview");
   };
@@ -30,14 +34,9 @@ function ItemCard({ card }) {
         handleLikeButton();
       }}
     /></>);
-  }, [handleLikeButton, isLoggedIn, clothingItems]);
+  }, [handleLikeButton]);
 
 
-  useEffect(() => {
-    if (card.likes.includes(user._id)) {
-      setIsLiked(true);
-    }
-  }, []); //left off
 
   return (
     <div className="card" onClick={() => handleClick()}>

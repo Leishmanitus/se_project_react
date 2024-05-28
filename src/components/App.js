@@ -31,8 +31,6 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({ name: "", avatar: "", _id: "", token: "" });
 
-
-
   const handleModalChange = (modalName) => {
     setActiveModal(modalName);
   };
@@ -67,7 +65,7 @@ const App = () => {
   const handleSubmitItem = (items, token) => {
     return handleRequest(() => {
       return api.addItem(items, token).then(({data: newItem}) => {
-        setClothingItems([...clothingItems, newItem]);
+        setClothingItems(clothingItems => [newItem, ...clothingItems]);
       });
     });
   };
@@ -177,11 +175,12 @@ const App = () => {
         setClothingItems(items);
       })
       .catch(console.error);
-  }, [isLoggedIn, clothingItems, user]);
+  }, [setClothingItems]);
 
   useEffect(() => {
     handleCheckToken();
   }, [])
+
 
   return (
     <CurrentUserContext.Provider

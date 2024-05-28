@@ -38,7 +38,7 @@ function Main() {
       .map((filteredCard) => {
         return <ItemCard key={filteredCard._id} card={filteredCard} />
       });
-  }, [clothingItems]);
+  }, [clothingItems, isLoggedIn]);
 
   if (!weatherData) return null;
 
