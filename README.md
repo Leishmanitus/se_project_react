@@ -1,6 +1,6 @@
 # What To Wear Project
 
-This project aims to provide users with personalized clothing recommendations based on current weather conditions. It leverages the MERN (MongoDB, Express.js, React.js, Node.js) stack to deliver a seamless user experience. Below is an overview of the project's functionalities and components.
+This project aims to provide users with clothing recommendations based on the current weather. The application allows users to sign up, sign in, add new custom clothing items, like and unlike items, and update their user information. Additionally, users can change the temperature display from Fahrenheit to Celsius and log out of their accounts. The project is built using the MERN stack and is deployed using Google Cloud Services.
 
 ## Front-End Functionality
 
@@ -53,6 +53,10 @@ This project aims to provide users with personalized clothing recommendations ba
 - **React.js**: A JavaScript library for building user interfaces used to develop the front-end components.
 - **Node.js**: A JavaScript runtime environment used to execute server-side code.
 - **JSON Web Tokens (JWT)**: Used for user authentication and authorization.
+- **Jest**: For unit testing the application.
+- **Joi**: For schema validation and data validation.
+- **Winston**: For logging errors and other significant events.
+- **Google Cloud Services**: For deploying and hosting the application.
 
 ## Getting Started
 To run the project locally, follow these steps:
@@ -68,4 +72,6 @@ To run the project locally, follow these steps:
 ## Links
 - Link to the Front-End repo: (https://github.com/Leishmanitus/se_project_react.git)
 - Link to the Back-End repo: (https://github.com/Leishmanitus/se_project_express.git)
+- Link to the site: (https://www.alphazoo.crabdance.com)
+- Link to api: (https://api.alphazoo.crabdance.com)
 
