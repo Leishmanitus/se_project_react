@@ -41,4 +41,6 @@ export const prefferedLocation = {
   longitude: -93.21891,
 };
 
-export const url = "http://localhost:3001";
+export const url = process.env.NODE_ENV === "production" 
+? "https://alphazoo.crabdance.com"
+: "http://localhost:3001";
