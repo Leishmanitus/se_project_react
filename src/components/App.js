@@ -175,13 +175,15 @@ const App = () => {
         setClothingItems(items);
       })
       .catch(console.error);
-  }, [setClothingItems]);
+  }, []);
 
   useEffect(() => {
-    handleCheckToken();
-  }, [])
+    if (user._id) {
+      handleCheckToken();
+    }
+  }, []);
 
-
+  console.log(user);
   return (
     <CurrentUserContext.Provider
       value={{

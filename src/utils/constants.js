@@ -42,5 +42,5 @@ export const prefferedLocation = {
 };
 
 export const url = process.env.NODE_ENV === "production" 
-? "https://alphazoo.crabdance.com"
+? "https://api.alphazoo.crabdance.com"
 : "http://localhost:3001";

@@ -13,7 +13,7 @@ const LoginModal = () => {
     };
 
     const { handleLogin, isLoading, handleModalChange } = useContext(ModalContext);
-    const { loginFormName, loginTitle, loginButton, signupButton, loginLoadingText, signupLoadingText } = modalOptions.loginOptions;
+    const { loginFormName, loginTitle, loginButton, signupButton, loginLoadingText } = modalOptions.loginOptions;
     const { values, handleChange, setValues } = useForm(initialValues);
 
     const { email, password } = values;
