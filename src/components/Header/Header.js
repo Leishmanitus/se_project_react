@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import "./Header.css";
 import { getDate } from "../../utils/utility";
 import wtwrLogo from "../../images/wtwr-logo.svg";

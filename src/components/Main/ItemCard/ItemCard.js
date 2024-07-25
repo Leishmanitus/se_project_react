@@ -6,7 +6,7 @@ import ModalContext from "../../../contexts/ModalContext";
 import CurrentUserContext from "../../../contexts/CurrentUserContext";
 
 function ItemCard({ card }) {
-  const { user, isLoggedIn, clothingItems } = useContext(CurrentUserContext);
+  const { user, isLoggedIn } = useContext(CurrentUserContext);
   const { handleItemClick, handleCardLike } = useContext(ModalContext);
 
   const [ isLiked, setIsLiked ] = useState(false);

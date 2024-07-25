@@ -183,7 +183,6 @@ const App = () => {
     }
   }, []);
 
-  console.log(user);
   return (
     <CurrentUserContext.Provider
       value={{
